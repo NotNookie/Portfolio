@@ -1,0 +1,29 @@
+---
+import "@fontsource-variable/hanken-grotesk/index.css";
+import "@fontsource-variable/hanken-grotesk/wght-italic.css";
+import "@fontsource-variable/jetbrains-mono/index.css";
+import "@fontsource-variable/jetbrains-mono/wght-italic.css";
+import "material-symbols/outlined.css";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+    <slot />
+  </body>
+</html>

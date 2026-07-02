@@ -1,0 +1,101 @@
+---
+import { socialLinks } from "../data/site";
+---
+
+<section class="py-24 border-b border-outline-variant" id="contact">
+  <div class="max-w-7xl mx-auto px-container-padding">
+    <div
+      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
+          >#03</span
+        >
+        <h2 class="font-headline-lg text-headline-lg">Get in Touch</h2>
+      </div>
+      <p class="font-code-comment text-code-comment text-on-surface-variant">
+        // contact.tsx
+      </p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <div class="space-y-8">
+        <div class="p-8 border border-outline-variant bg-surface-container-lowest">
+          <p class="text-body-md mb-8">
+            Have a project in mind, or just want to say hi? Send a message - I read every one.
+          </p>
+          <div class="space-y-6">
+            {
+              socialLinks.map((link) => (
+                <a class="flex items-center gap-4 group" href={link.href}>
+                  <span class="w-10 h-10 border border-outline-variant flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                    <span class="material-symbols-outlined" aria-hidden="true">
+                      {link.icon}
+                    </span>
+                  </span>
+                  <span class="font-code-label">{link.label}</span>
+                </a>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div class="bg-surface border border-outline-variant p-8 window-shadow">
+        <form class="space-y-6" method="POST" action="mailto:lhexuspaul@gmail.com">
+          <div class="space-y-1">
+            <label
+              for="contact-name"
+              class="font-code-label text-[10px] uppercase text-on-surface-variant"
+              >Name</label
+            >
+            <input
+              id="contact-name"
+              name="name"
+              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
+              placeholder="Your Name"
+              type="text"
+              autocomplete="name"
+              required
+            />
+          </div>
+          <div class="space-y-1">
+            <label
+              for="contact-email"
+              class="font-code-label text-[10px] uppercase text-on-surface-variant"
+              >Email</label
+            >
+            <input
+              id="contact-email"
+              name="email"
+              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
+              placeholder="email@example.com"
+              type="email"
+              autocomplete="email"
+              required
+            />
+          </div>
+          <div class="space-y-1">
+            <label
+              for="contact-message"
+              class="font-code-label text-[10px] uppercase text-on-surface-variant"
+              >Message</label
+            >
+            <textarea
+              id="contact-message"
+              name="message"
+              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
+              placeholder="How can I help you?"
+              rows="4"
+              required></textarea>
+          </div>
+          <button
+            type="submit"
+            class="w-full bg-primary text-on-primary py-4 font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"
+          >
+            Send message <span class="material-symbols-outlined" aria-hidden="true">send</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

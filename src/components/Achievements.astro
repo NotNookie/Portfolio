@@ -1,0 +1,92 @@
+---
+import { milestones, certificates } from "../data/site";
+
+const bannerUrl =
+  "https://lh3.googleusercontent.com/aida-public/AB6AXuBECd56fEJRHy1luVWMsviqneg0Zbju4WykXe-htUoyG7LJ1ip_JkTOPSnF0ajWLZZtdFXaAuTM9EhMqNQ5n1geYeDauYnxO-rpz1INF9dSBngOurYCPJAHbDopO8r3mTTwsbqym3G6npyy1rOrtxBcmSWWIbC3XmfEmpDjiCKXM1-toJqywxEOAGAy0n5fCD2dpZtbUxRNHu-9XgkZEoepTX8hUgo6szXWzaUdT9BFgRb_weHzgA5ACA04aLrIO3v1d3LGlbpeOyeE";
+---
+
+<section
+  class="py-24 border-b border-outline-variant bg-surface-container-low"
+  id="achievements"
+>
+  <div class="max-w-7xl mx-auto px-container-padding">
+    <div
+      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="bg-surface px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
+          >#02</span
+        >
+        <h2 class="font-headline-lg text-headline-lg">Success Logs</h2>
+      </div>
+      <p class="font-code-comment text-code-comment text-on-surface-variant">
+        // rewards.log
+      </p>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+      <div class="space-y-8">
+        <h3 class="font-code-label uppercase text-primary tracking-widest">
+          Key Milestones
+        </h3>
+        <ul class="space-y-6">
+          {
+            milestones.map((milestone) => (
+              <li class="flex gap-4">
+                <span class="bg-primary text-on-primary w-8 h-8 flex items-center justify-center font-code-label text-xs shrink-0">
+                  {milestone.index}
+                </span>
+                <div>
+                  <h4 class="font-bold text-lg">{milestone.title}</h4>
+                  <p class="text-on-surface-variant text-sm mt-1">{milestone.description}</p>
+                  <span class="text-[10px] font-code-comment text-on-surface-variant block mt-2">
+                    {milestone.date}
+                  </span>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="space-y-8">
+        <h3 class="font-code-label uppercase text-primary tracking-widest">
+          Certificates
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {
+            certificates.map((cert) => (
+              <div class="bg-surface border border-outline-variant p-4 hover:border-primary transition-colors">
+                <div class="text-[10px] font-code-comment text-on-surface-variant mb-1">
+                  {cert.issuer}
+                </div>
+                <h4 class="font-bold text-sm mb-3">{cert.title}</h4>
+                <a
+                  class="inline-flex items-center gap-1 text-[10px] font-bold text-primary border-b border-primary pb-0.5"
+                  href={cert.url}
+                >
+                  VIEW CERTIFICATE
+                  <span class="material-symbols-outlined text-[12px]" aria-hidden="true">
+                    open_in_new
+                  </span>
+                </a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-16 grayscale opacity-40">
+      <img
+        src={bannerUrl}
+        alt="Panoramic minimalist landscape of a modern data center with glowing lines of code, symbolizing the landscape of software engineering achievement."
+        width={1600}
+        height={192}
+        loading="lazy"
+        decoding="async"
+        class="w-full h-24 object-cover"
+      />
+    </div>
+  </div>
+</section>

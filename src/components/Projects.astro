@@ -1,0 +1,92 @@
+---
+import { projects } from "../data/site";
+---
+
+<section class="py-24 border-b border-outline-variant dot-grid" id="projects">
+  <div class="max-w-7xl mx-auto px-container-padding">
+    <div
+      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
+          >#01</span
+        >
+        <h2 class="font-headline-lg text-headline-lg">Selected Projects</h2>
+      </div>
+      <p class="font-code-comment text-code-comment text-on-surface-variant">
+        // projects.jsx
+      </p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {
+        projects.map((project) => (
+          <article class="bg-surface border border-outline-variant rounded-2xl flex flex-col overflow-hidden hover:border-primary hover:shadow-lg transition-all group">
+            <div class="w-full h-56 bg-surface-container-low overflow-hidden relative border-b border-outline-variant">
+              <img
+                src={project.imageUrl}
+                alt={project.imageAlt}
+                width={640}
+                height={448}
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div class="p-6 flex flex-col justify-between flex-grow gap-6">
+              <div class="space-y-4">
+                <div class="flex justify-between items-start">
+                  <h3 class="font-headline-lg text-xl group-hover:text-primary transition-colors">
+                    {project.title}
+                  </h3>
+                  <span class="font-code-label text-[10px] text-on-surface-variant uppercase bg-surface-container px-2 py-1 rounded">
+                    {project.id}
+                  </span>
+                </div>
+                <ul class="flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <li class="bg-surface-container-high px-2.5 py-1 text-[10px] font-code-label rounded-full flex items-center gap-1">
+                      <span class="material-symbols-outlined text-[12px]" aria-hidden="true">
+                        {tag.icon}
+                      </span>
+                      {tag.label}
+                    </li>
+                  ))}
+                </ul>
+                <p class="font-code-comment text-sm text-on-surface-variant">
+                  {project.description}
+                </p>
+                <div class="pl-4 border-l-2 border-primary py-1 mt-2">
+                  <span class="font-bold text-xs uppercase tracking-widest text-primary block mb-1">
+                    Impact
+                  </span>
+                  <p class="text-sm font-code-label text-on-surface-variant">{project.impact}</p>
+                </div>
+              </div>
+              <div class="flex gap-4 pt-4 border-t border-outline-variant border-dashed">
+                <a
+                  href="#"
+                  class="text-primary font-bold text-sm flex items-center justify-center gap-1 hover:opacity-80 transition-opacity"
+                >
+                  View Project
+                  <span class="material-symbols-outlined text-[14px]" aria-hidden="true">
+                    north_east
+                  </span>
+                </a>
+                <a
+                  href="#"
+                  class="text-on-surface-variant font-bold text-sm flex items-center justify-center gap-1 hover:text-on-surface transition-colors"
+                >
+                  <span class="material-symbols-outlined text-[14px]" aria-hidden="true">
+                    code
+                  </span>
+                  View Code
+                </a>
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
