@@ -1,9 +1,11 @@
 ---
+import { profile } from "../data/site";
+
 const year = new Date().getFullYear();
 const links = [
-  { label: "github", href: "#" },
-  { label: "linkedin", href: "#" },
-  { label: "source", href: "#" },
+  { label: "github", href: profile.github },
+  { label: "linkedin", href: profile.linkedin },
+  { label: "source", href: "https://github.com/NotNookie/Portfolio" },
 ];
 ---
 
@@ -23,6 +25,8 @@ const links = [
           <a
             class="font-code-comment text-code-comment text-on-surface-variant hover:text-primary underline decoration-dashed"
             href={link.href}
+            target="_blank"
+            rel="noopener noreferrer"
           >
             {link.label}
           </a>

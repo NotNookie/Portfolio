@@ -1,27 +1,45 @@
 export const profile = {
   name: "Lhexus Paul M. Sosong",
   role: "Full-Stack Developer",
-  location: "Laguna, Philippines",
+  location: "Santa Cruz, Laguna, Philippines",
   email: "lhexuspaul@gmail.com",
+  phone: "+63 907 275 2484",
+  github: "https://github.com/NotNookie",
+  linkedin: "https://www.linkedin.com/in/lhexus-paul-sosong-048b5b3b6/",
   tagline:
-    "I build clean, performant web experiences with a focus on developer ergonomics and product polish. Currently shaping the future of technical interfaces.",
+    "BS Information Technology student passionate about building end-to-end products, with experience developing modern React frontends, Node.js backends, REST APIs, and production-ready web applications.",
 };
 
 export const coreStack = [
   "React",
-  "Next.js",
-  "TypeScript",
-  "Tailwind CSS",
+  "Astro",
+  "Vite",
   "Node.js",
-  "Python",
-  "PostgreSQL",
-  "MongoDB",
+  "JavaScript",
+  "PHP",
+  "SQL",
+  "Tailwind CSS",
+  "Supabase",
+  "REST APIs",
 ] as const;
 
 export interface TechTag {
   label: string;
+  /** Material Symbols icon name, used when no brand iconSrc is available. */
   icon: string;
+  /** Path to a brand logo image; takes precedence over `icon` when set. */
+  iconSrc?: string;
 }
+
+const techIcons = {
+  react: "/icons/tech/react.webp",
+  vite: "/icons/tech/vite.jpg",
+  nodejs: "/icons/tech/nodejs.svg",
+  supabase: "/icons/tech/supabase.webp",
+  paymongo: "/icons/tech/paymongo.png",
+  tailwind: "/icons/tech/tailwind.webp",
+  framerMotion: "/icons/tech/framer-motion.webp",
+} as const;
 
 export interface Project {
   id: string;
@@ -31,87 +49,80 @@ export interface Project {
   tags: TechTag[];
   description: string;
   impact: string;
+  liveUrl?: string;
+  codeUrl?: string;
 }
 
 export const projects: Project[] = [
   {
     id: "01",
-    title: "Project Alpha",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuBw1cDYAtE6aQZlleXsAENbA0Sj_PdBxHyB4pIE57fEEn06mJ9meYuIIU7SGgNFm-1t4wI8YP6QDRn4yi8EYX5GnWtaAnuvdgEId6ZrelA6Qd4ptGib7xAN22C346MpYJaH05Q8LZFqsc0pOaPExntbmdqlXSe2fslrHvBCKAGzyK6pX6CYl7cNYCZdBZR41jzId9UEqwGP40w5mJC8eWI1DFwi3DBVM0xZ2w6UWzz15aBsSie8Qs2pEogwoJ74AmY2KgDnfyHLdUhU",
-    imageAlt: "Project Alpha preview",
+    title: "Better Me Web",
+    imageUrl: "/images/projects/betterme-web.png",
+    imageAlt: "Better Me Web storefront preview",
     tags: [
-      { label: "React", icon: "javascript" },
-      { label: "TypeScript", icon: "data_object" },
-      { label: "Postgres", icon: "database" },
+      { label: "React", icon: "javascript", iconSrc: techIcons.react },
+      { label: "Vite", icon: "bolt", iconSrc: techIcons.vite },
+      { label: "Supabase", icon: "database", iconSrc: techIcons.supabase },
+      { label: "PayMongo", icon: "payments", iconSrc: techIcons.paymongo },
     ],
-    description: "Realtime collaboration dashboard for enterprise teams.",
-    impact: "Reduced status-meeting overhead by ~40% for the pilot team.",
+    description:
+      "Production-ready digital product storefront with serverless checkout on Vercel.",
+    impact:
+      "Increased payment reliability with PayMongo checkout sessions and webhook idempotency, eliminating duplicate fulfillment updates.",
+    liveUrl: "https://betterme-web.vercel.app",
+    codeUrl: "https://github.com/NotNookie",
   },
   {
     id: "02",
-    title: "Project Beta",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuCncyDj4fsLoT_und91Zl-sYYKKdRFeZm1k8u2G7SAg8SADCNVBnr-_2-VGRdYfjdqL7Ao5ZPNoc2yr2QAptamrYkcfrg0qQnmfGkt7hgjbDX9s8uK1EXQkRDNs48XY1ax09DndB_GumCeaAv5f9u4iFW-Q1IHJOnPN9gOFP5ziv7_5hK-pn0PTHjwpk-lwVJkI1eGIjFBPurUb1Afu4HSn-kcD9RYb_N42nbNb2QfMU3G5dblk_HMv9EG_GPX3fUMF_48Yh_Njm7zS",
-    imageAlt: "Project Beta preview",
+    title: "Latia POS",
+    imageUrl: "/images/projects/latia-pos.jpg",
+    imageAlt: "Latia POS login screen preview",
     tags: [
-      { label: "Next.js", icon: "speed" },
-      { label: "Tailwind", icon: "palette" },
-      { label: "Supabase", icon: "database" },
+      { label: "React", icon: "javascript", iconSrc: techIcons.react },
+      { label: "Node.js", icon: "terminal", iconSrc: techIcons.nodejs },
+      { label: "REST API", icon: "api" },
+      { label: "RBAC", icon: "admin_panel_settings" },
     ],
-    description: "Mobile-first marketplace for digital assets.",
-    impact: "Reached 1k MAU in the first quarter after launch.",
+    description:
+      "Multi-app POS ecosystem with a cashier client, backend services, and admin dashboard.",
+    impact:
+      "Improved checkout reliability with server-side validation and consistent state sync between cashier and admin interfaces.",
+    codeUrl: "https://github.com/NotNookie",
   },
   {
     id: "03",
-    title: "Project Gamma",
-    imageUrl:
-      "https://lh3.googleusercontent.com/aida-public/AB6AXuDv_VPX7yzhU_hWmsjuQrd3uN60xfpLPE6lpNqXVJT59NMMZQGQ4KIRJKj0ezDjMoQ0RAcm0_D2BTBc5uc2dIU_c9j5_-uGcbpspF0D-155oIOsuRQqeV_Gp2aBKCZF28oKdBqauEA_5dwsPkL8iU_6YE1qqqzge2122wXTZoiDZxM0Q55fsjUKGo8Z0ojnvtpqP0o1oEJosGQ3KWr6ywXBO3iQDBzVadInw8r8U_ytWO9AorOc-sUID67j2fMXg3zSAnjnoXJhyrWX",
-    imageAlt: "Project Gamma preview",
+    title: "fuwa",
+    imageUrl: "/images/projects/fuwa.png",
+    imageAlt: "fuwa clothing brand mockup preview",
     tags: [
-      { label: "Vue.js", icon: "view_quilt" },
-      { label: "Node.js", icon: "terminal" },
-      { label: "AWS", icon: "cloud" },
+      { label: "React", icon: "javascript", iconSrc: techIcons.react },
+      { label: "Tailwind", icon: "palette", iconSrc: techIcons.tailwind },
+      { label: "Framer Motion", icon: "animation", iconSrc: techIcons.framerMotion },
     ],
-    description: "Automated deployment pipeline and monitoring tool.",
-    impact: "Decreased average deployment time by 60%.",
-  },
-];
-
-export interface Milestone {
-  index: string;
-  title: string;
-  description: string;
-  date: string;
-}
-
-export const milestones: Milestone[] = [
-  {
-    index: "01",
-    title: "1st Place - University Hackathon",
     description:
-      "Built a campus logistics app over a weekend with a team of four. Won for innovation and technical implementation.",
-    date: "JAN 2024",
+      "Front-end design mockup for fuwa, a fictional \"ethereal comfort\" clothing brand.",
+    impact:
+      "Built a full storefront UI (home, shop, product detail, brand story) with scroll reveals and smooth-scroll motion design.",
+    liveUrl: "https://fuwa-one.vercel.app",
+    codeUrl: "https://github.com/NotNookie",
   },
   {
-    index: "02",
-    title: "Open Source Contributor of the Month",
+    id: "04",
+    title: "Sillage",
+    imageUrl: "/images/projects/sillage.png",
+    imageAlt: "Sillage fragrance brand mockup preview",
+    tags: [
+      { label: "React", icon: "javascript", iconSrc: techIcons.react },
+      { label: "Tailwind", icon: "palette", iconSrc: techIcons.tailwind },
+      { label: "Framer Motion", icon: "animation", iconSrc: techIcons.framerMotion },
+    ],
     description:
-      "Recognized for contributions to a popular TypeScript tooling project, fixing over 12 critical bugs.",
-    date: "NOV 2023",
+      "Visual mockup for Sillage, a fictional luxury fragrance brand's storefront experience.",
+    impact:
+      "Designed a multi-page collection/ateliers/discovery flow with page-transition and scroll-driven motion.",
+    liveUrl: "https://sillage-gamma-six.vercel.app",
+    codeUrl: "https://github.com/NotNookie",
   },
-];
-
-export interface Certificate {
-  issuer: string;
-  title: string;
-  url: string;
-}
-
-export const certificates: Certificate[] = [
-  { issuer: "AWS", title: "Cloud Practitioner", url: "#" },
-  { issuer: "GOOGLE", title: "Professional Data Engineer", url: "#" },
-  { issuer: "META", title: "Front-End Developer Professional", url: "#" },
 ];
 
 export interface SocialLink {
@@ -122,12 +133,13 @@ export interface SocialLink {
 
 export const socialLinks: SocialLink[] = [
   { label: profile.email, href: `mailto:${profile.email}`, icon: "mail" },
-  { label: "GitHub", href: "#", icon: "code" },
-  { label: "LinkedIn", href: "#", icon: "share" },
+  { label: profile.phone, href: `tel:${profile.phone.replace(/\s+/g, "")}`, icon: "call" },
+  { label: "GitHub", href: profile.github, icon: "code" },
+  { label: "LinkedIn", href: profile.linkedin, icon: "share" },
 ];
 
 export const footerLinks: SocialLink[] = [
-  { label: "github", href: "#", icon: "" },
-  { label: "linkedin", href: "#", icon: "" },
-  { label: "source", href: "#", icon: "" },
+  { label: "github", href: profile.github, icon: "" },
+  { label: "linkedin", href: profile.linkedin, icon: "" },
+  { label: "source", href: profile.github, icon: "" },
 ];

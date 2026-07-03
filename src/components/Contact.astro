@@ -10,7 +10,7 @@ import { socialLinks } from "../data/site";
       <div class="flex items-center gap-4">
         <span
           class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
-          >#03</span
+          >#02</span
         >
         <h2 class="font-headline-lg text-headline-lg">Get in Touch</h2>
       </div>
@@ -27,7 +27,12 @@ import { socialLinks } from "../data/site";
           <div class="space-y-6">
             {
               socialLinks.map((link) => (
-                <a class="flex items-center gap-4 group" href={link.href}>
+                <a
+                  class="flex items-center gap-4 group"
+                  href={link.href}
+                  target={link.href.startsWith("http") ? "_blank" : undefined}
+                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                >
                   <span class="w-10 h-10 border border-outline-variant flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
                     <span class="material-symbols-outlined" aria-hidden="true">
                       {link.icon}
