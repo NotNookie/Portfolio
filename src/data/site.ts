@@ -15,6 +15,7 @@ export const coreStack = [
   "Astro",
   "Vite",
   "Node.js",
+  "Flutter",
   "JavaScript",
   "PHP",
   "SQL",
@@ -100,9 +101,9 @@ export const projects: Project[] = [
       { label: "Framer Motion", icon: "animation", iconSrc: techIcons.framerMotion },
     ],
     description:
-      "Front-end design mockup for fuwa, a fictional \"ethereal comfort\" clothing brand.",
+      "Modern e-commerce storefront concept for a fictional clothing brand, focused on clean UI and UX.",
     impact:
-      "Built a full storefront UI (home, shop, product detail, brand story) with scroll reveals and smooth-scroll motion design.",
+      "Built responsive home, shop, product detail, and brand story pages with smooth scrolling and scroll-triggered micro-interactions via Framer Motion.",
     liveUrl: "https://fuwa-one.vercel.app",
     codeUrl: "https://github.com/NotNookie",
   },
@@ -117,9 +118,9 @@ export const projects: Project[] = [
       { label: "Framer Motion", icon: "animation", iconSrc: techIcons.framerMotion },
     ],
     description:
-      "Visual mockup for Sillage, a fictional luxury fragrance brand's storefront experience.",
+      "Premium multi-page storefront concept for a fictional fragrance brand with elegant visual storytelling.",
     impact:
-      "Designed a multi-page collection/ateliers/discovery flow with page-transition and scroll-driven motion.",
+      "Built animated page transitions and scroll-driven effects on a performance-conscious, reusable component architecture.",
     liveUrl: "https://sillage-gamma-six.vercel.app",
     codeUrl: "https://github.com/NotNookie",
   },
