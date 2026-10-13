@@ -23,15 +23,27 @@ import { projects } from "../data/site";
         projects.map((project) => (
           <article class="bg-surface border border-outline-variant rounded-2xl flex flex-col overflow-hidden hover:border-primary hover:shadow-lg transition-all group">
             <div class="w-full h-56 bg-surface-container-low overflow-hidden relative border-b border-outline-variant">
-              <img
-                src={project.imageUrl}
-                alt={project.imageAlt}
-                width={640}
-                height={448}
-                loading="lazy"
-                decoding="async"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              />
+              {project.imageUrl ? (
+                <img
+                  src={project.imageUrl}
+                  alt={project.imageAlt}
+                  width={640}
+                  height={448}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              ) : (
+                <div
+                  class="w-full h-full dot-grid flex items-center justify-center"
+                  role="img"
+                  aria-label={project.imageAlt}
+                >
+                  <span class="material-symbols-outlined text-5xl text-on-surface-variant" aria-hidden="true">
+                    {project.tags[0]?.icon ?? "code"}
+                  </span>
+                </div>
+              )}
             </div>
             <div class="p-6 flex flex-col justify-between flex-grow gap-6">
               <div class="space-y-4">
@@ -57,6 +69,11 @@ import { projects } from "../data/site";
                     </li>
                   ))}
                 </ul>
+                {project.role && (
+                  <p class="font-code-label text-[11px] uppercase tracking-wider text-primary">
+                    {project.role}
+                  </p>
+                )}
                 <p class="font-code-comment text-sm text-on-surface-variant">
                   {project.description}
                 </p>

@@ -1,0 +1,93 @@
+---
+import { education, codeFest, certifications, activities } from "../data/site";
+---
+
+<section class="py-24 border-b border-outline-variant" id="background">
+  <div class="max-w-7xl mx-auto px-container-padding">
+    <div
+      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
+    >
+      <div class="flex items-center gap-4">
+        <span
+          class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
+          >#02</span
+        >
+        <h2 class="font-headline-lg text-headline-lg">Background</h2>
+      </div>
+      <p class="font-code-comment text-code-comment text-on-surface-variant">
+        // background.ts
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="p-6 border border-outline-variant bg-surface-container-lowest space-y-6">
+        <h3 class="font-code-label text-[10px] uppercase text-on-surface-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">school</span> EDUCATION
+        </h3>
+        <ul class="space-y-5">
+          {
+            education.map((item) => (
+              <li class="pl-4 border-l-2 border-primary space-y-1">
+                <p class="font-bold">{item.title}</p>
+                <p class="text-sm text-on-surface-variant">{item.org}</p>
+                <p class="font-code-label text-[11px] text-primary">{item.period}</p>
+                {item.detail && <p class="text-sm text-on-surface-variant">{item.detail}</p>}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="p-6 border border-outline-variant bg-surface-container-lowest space-y-6">
+        <h3 class="font-code-label text-[10px] uppercase text-on-surface-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">emoji_events</span> {codeFest.title.toUpperCase()}
+        </h3>
+        <div class="space-y-1">
+          <p class="font-bold">{codeFest.org}</p>
+          <p class="text-sm text-on-surface-variant">{codeFest.detail}</p>
+        </div>
+        <ul class="grid grid-cols-2 gap-3">
+          {
+            codeFest.results.map((r) => (
+              <li class="border border-outline-variant bg-surface-container-low p-3">
+                <p class="font-code-label text-[10px] uppercase text-on-surface-variant">{r.year}</p>
+                <p class="font-bold text-primary">{r.place}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="p-6 border border-outline-variant bg-surface-container-lowest space-y-6">
+        <h3 class="font-code-label text-[10px] uppercase text-on-surface-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">workspace_premium</span> CERTIFICATIONS &amp; TRAINING
+        </h3>
+        <ul class="space-y-5">
+          {
+            certifications.map((item) => (
+              <li class="pl-4 border-l-2 border-primary space-y-1">
+                <p class="font-bold">{item.title}</p>
+                <p class="text-sm text-on-surface-variant">{item.org}</p>
+                <p class="font-code-label text-[11px] text-primary">{item.period}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="p-6 border border-outline-variant bg-surface-container-lowest space-y-6">
+        <h3 class="font-code-label text-[10px] uppercase text-on-surface-variant flex items-center gap-2">
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">groups</span> LEADERSHIP &amp; ACTIVITIES
+        </h3>
+        <ul class="space-y-5">
+          {
+            activities.map((item) => (
+              <li class="pl-4 border-l-2 border-primary space-y-1">
+                <p class="font-bold">{item.title}</p>
+                <p class="text-sm text-on-surface-variant">{item.org}</p>
+                <p class="font-code-label text-[11px] text-primary">{item.period}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
