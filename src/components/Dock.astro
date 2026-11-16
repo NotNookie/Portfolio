@@ -21,7 +21,7 @@ const labelClass = "dock-label font-mono text-[9.5px] leading-tight font-medium 
 
 <nav aria-label="Primary" class="fixed inset-x-0 bottom-2 z-50 flex justify-center px-2 sm:bottom-3">
   <div
-    class="max-w-full overflow-hidden rounded-[1.25rem] border-2 border-line bg-win shadow-[4px_4px_0_0_var(--shadow)] dark:border-ink-2"
+    class="max-w-full overflow-hidden rounded-[1.25rem] border-2 border-line bg-win shadow-[4px_4px_0_0_var(--shadow)]"
   >
     <ul class="flex items-start gap-0.5 overflow-x-auto px-2 py-2 [scrollbar-width:none] sm:gap-1 sm:px-3">
       {
@@ -46,37 +46,11 @@ const labelClass = "dock-label font-mono text-[9.5px] leading-tight font-medium 
           <span class="sr-only">(PDF, opens in a new tab)</span>
         </a>
       </li>
-      <li class="flex">
-        <button type="button" id="theme-toggle" class={itemClass} aria-pressed="false">
-          <span class="dock-tile">
-            <span class="flex dark:hidden"><PixelIcon name="moon" /></span>
-            <span class="hidden dark:flex"><PixelIcon name="sun" /></span>
-          </span>
-          <span class={labelClass}>
-            <span class="dark:hidden">Dark</span><span class="hidden dark:inline">Light</span>
-          </span>
-          <span class="sr-only">mode</span>
-        </button>
-      </li>
     </ul>
   </div>
 </nav>
 
 <script>
-  // ---- theme toggle ----
-  const root = document.documentElement;
-  const toggle = document.getElementById("theme-toggle");
-  const sync = () => toggle?.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
-  sync();
-  toggle?.addEventListener("click", () => {
-    const next = root.dataset.theme === "dark" ? "light" : "dark";
-    root.dataset.theme = next;
-    try {
-      localStorage.setItem("theme", next);
-    } catch {}
-    sync();
-  });
-
   // ---- active section: dock highlight + focused window ----
   const links = new Map<string, HTMLAnchorElement>();
   document.querySelectorAll<HTMLAnchorElement>("[data-dock]").forEach((a) => links.set(a.dataset.dock!, a));

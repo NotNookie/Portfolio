@@ -31,31 +31,6 @@
   --shadow: #11131a;
 }
 
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --desk: #0d1120;
-  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.62 0 0 0 0 1 0 0 0 2.6 -1.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  --band: #222a47;
-  --px-line: #e8eaf2;
-  --px-fill: #ffd23f;
-  --px-paper: #2b3252;
-  --win: #161925;
-  --win-2: #1c2030;
-  --win-3: #242a3d;
-  --ink: #e8eaf2;
-  --ink-2: #a6acc2;
-  --line: #3a4160;
-  --line-soft: #2a3046;
-  --accent: #8a9bff;
-  --accent-ink: #a9b6ff;
-  --on-accent: #0d0f16;
-  --accent-wash: #1f2647;
-  --hi: #ffd23f;
-  --on-hi: #11131a;
-  --bar-idle: #1f2333;
-  --shadow: #2b3252;
-}
-
 @theme inline {
   --color-desk: var(--desk);
   --color-win: var(--win);
@@ -75,8 +50,6 @@
   --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", "JetBrains Mono", ui-monospace, monospace;
 }
-
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ---------- base & browser surfaces ---------- */
 
@@ -255,9 +228,6 @@ section[id] {
   background: var(--win);
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
     background-color 0.2s ease, border-color 0.2s ease;
-}
-:root[data-theme="dark"] .dock-tile {
-  border-color: var(--ink-2);
 }
 .dock-item:hover .dock-tile {
   transform: translateY(-3px);
