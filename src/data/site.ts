@@ -3,6 +3,8 @@
   firstName: "Lhexus Paul",
   lastName: "Sosong",
   role: "Full-Stack Developer",
+  /** Shown under the name in the hero. */
+  status: "Looking for Internships",
   course: "BS Information Technology",
   school: "STI College – Sta. Cruz",
   year: "4th Year",
