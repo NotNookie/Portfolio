@@ -1,0 +1,221 @@
+---
+/**
+ * Hand-authored 16×16 pixel-art icons.
+ * K = outline (--px-line), Y = fill (--px-fill), W = paper (--px-paper), . = empty
+ */
+const icons = {
+  home: [
+    "................",
+    ".......KK.......",
+    "......KYYK......",
+    ".....KYYYYK.....",
+    "....KYYYYYYK....",
+    "...KYYYYYYYYK...",
+    "..KYYYYYYYYYYK..",
+    ".KKKYYYYYYYYKKK.",
+    "...KYYYYYYYYK...",
+    "...KYYKKKKYYK...",
+    "...KYYKWWKYYK...",
+    "...KYYKWWKYYK...",
+    "...KYYKWWKYYK...",
+    "...KKKKKKKKKK...",
+    "................",
+    "................",
+  ],
+  person: [
+    "................",
+    "......KKKK......",
+    ".....KYYYYK.....",
+    "....KYYYYYYK....",
+    "....KYKYYKYK....",
+    "....KYYYYYYK....",
+    "....KYYKKYYK....",
+    ".....KYYYYK.....",
+    "......KKKK......",
+    "................",
+    "...KKKKKKKKKK...",
+    "..KYYYYYYYYYYK..",
+    "..KYYYYYYYYYYK..",
+    "..KYYYYYYYYYYK..",
+    "..KKKKKKKKKKKK..",
+    "................",
+  ],
+  folder: [
+    "................",
+    "................",
+    ".KKKKK..........",
+    "KYYYYYK.........",
+    "KYYYYYYKKKKKKKK.",
+    "KYYYYYYYYYYYYYYK",
+    "KKKKKKKKKKKKKKKK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KKKKKKKKKKKKKKKK",
+    "................",
+    "................",
+  ],
+  chip: [
+    "................",
+    ".....K.K.K.K....",
+    "...KKKKKKKKKKK..",
+    "...KYYYYYYYYYK..",
+    ".KKKYYYYYYYYYKKK",
+    "...KYYYYYYYYYK..",
+    ".KKKYYKKKKKYYKKK",
+    "...KYYKWWWKYYK..",
+    ".KKKYYKWWWKYYKKK",
+    "...KYYKWWWKYYK..",
+    ".KKKYYKKKKKYYKKK",
+    "...KYYYYYYYYYK..",
+    "...KKKKKKKKKKK..",
+    ".....K.K.K.K....",
+    "................",
+    "................",
+  ],
+  book: [
+    "................",
+    "................",
+    "................",
+    ".KKKKK....KKKKK.",
+    "KYYYYYK..KYYYYYK",
+    "KYKKKYYKKYYKKKYK",
+    "KYYYYYYKKYYYYYYK",
+    "KYKKKYYKKYYKKKYK",
+    "KYYYYYYKKYYYYYYK",
+    "KYKKKYYKKYYKKKYK",
+    "KYYYYYYKKYYYYYYK",
+    "KKKKKKKKKKKKKKKK",
+    ".......KK.......",
+    "................",
+    "................",
+    "................",
+  ],
+  medal: [
+    "................",
+    "...KKK....KKK...",
+    "...KYK....KYK...",
+    "....KYK..KYK....",
+    ".....KYKKYK.....",
+    ".....KKKKKK.....",
+    "....KYYYYYYK....",
+    "...KYYYYYYYYK...",
+    "...KYYYYYYYYK...",
+    "...KYYYKKYYYK...",
+    "...KYYYKKYYYK...",
+    "...KYYYYYYYYK...",
+    "....KYYYYYYK....",
+    ".....KKKKKK.....",
+    "................",
+    "................",
+  ],
+  mail: [
+    "................",
+    "................",
+    "................",
+    "KKKKKKKKKKKKKKKK",
+    "KKYYYYYYYYYYYYKK",
+    "KYKYYYYYYYYYYKYK",
+    "KYYKYYYYYYYYKYYK",
+    "KYYYKYYYYYYKYYYK",
+    "KYYYYKKYYKKYYYYK",
+    "KYYYYYYKKYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KYYYYYYYYYYYYYYK",
+    "KKKKKKKKKKKKKKKK",
+    "................",
+    "................",
+    "................",
+  ],
+  doc: [
+    "................",
+    "..KKKKKKKK......",
+    "..KYYYYYYKK.....",
+    "..KYYYYYYKWK....",
+    "..KYYYYYYKKKK...",
+    "..KYYYYYYYYYK...",
+    "..KYKKKKKKKYK...",
+    "..KYYYYYYYYYK...",
+    "..KYKKKKKKKYK...",
+    "..KYYYYYYYYYK...",
+    "..KYKKKKKYYYK...",
+    "..KYYYYYYYYYK...",
+    "..KYYYYYYYYYK...",
+    "..KKKKKKKKKKK...",
+    "................",
+    "................",
+  ],
+  moon: [
+    "................",
+    "................",
+    ".....KKKKK......",
+    "...KKYYYK.......",
+    "..KYYYYK........",
+    ".KYYYYK.........",
+    ".KYYYYK.........",
+    ".KYYYYYK........",
+    ".KYYYYYYK.....K.",
+    ".KYYYYYYYKKKKKK.",
+    "..KYYYYYYYYYYK..",
+    "...KKYYYYYYKK...",
+    ".....KKKKKK.....",
+    "................",
+    "................",
+    "................",
+  ],
+  sun: [
+    ".......KK.......",
+    "..K....KK....K..",
+    "...K........K...",
+    ".....KKKKKK.....",
+    "....KYYYYYYK....",
+    "...KYYYYYYYYK...",
+    "KK.KYYYYYYYYK.KK",
+    "KK.KYYYYYYYYK.KK",
+    "...KYYYYYYYYK...",
+    "....KYYYYYYK....",
+    ".....KKKKKK.....",
+    "...K........K...",
+    "..K....KK....K..",
+    ".......KK.......",
+    "................",
+    "................",
+  ],
+} as const;
+
+export type PixelIconName = keyof typeof icons;
+
+interface Props {
+  name: PixelIconName;
+  class?: string;
+}
+
+const { name, class: className = "" } = Astro.props;
+const fills: Record<string, string> = { K: "var(--px-line)", Y: "var(--px-fill)", W: "var(--px-paper)" };
+
+// Merge horizontal runs of the same colour into single rects.
+const rects: { x: number; y: number; w: number; fill: string }[] = [];
+icons[name].forEach((row, y) => {
+  let x = 0;
+  while (x < row.length) {
+    const ch = row[x];
+    let end = x;
+    while (end < row.length && row[end] === ch) end++;
+    if (ch !== ".") rects.push({ x, y, w: end - x, fill: fills[ch] });
+    x = end;
+  }
+});
+---
+
+<svg
+  class:list={["px-icon", className]}
+  viewBox="0 0 16 16"
+  shape-rendering="crispEdges"
+  aria-hidden="true"
+  focusable="false"
+>
+  {rects.map((r) => <rect x={r.x} y={r.y} width={r.w} height="1" fill={r.fill} />)}
+</svg>

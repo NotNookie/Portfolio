@@ -1,57 +1,58 @@
 ---
+import PixelIcon from "./PixelIcon.astro";
 import { profile } from "../data/site";
 
 const items = [
   { href: "#hero", label: "Home", icon: "home" },
   { href: "#about", label: "About", icon: "person" },
-  { href: "#projects", label: "Projects", icon: "folder_open" },
-  { href: "#skills", label: "Skills", icon: "construction" },
-  { href: "#background", label: "Background", icon: "history_edu" },
-  { href: "#certificates", label: "Certificates", icon: "workspace_premium" },
-  { href: "#contact", label: "Contact", icon: "alternate_email" },
-];
+  { href: "#projects", label: "Projects", icon: "folder" },
+  { href: "#skills", label: "Skills", icon: "chip" },
+  { href: "#background", label: "Background", icon: "book" },
+  { href: "#certificates", label: "Certificates", icon: "medal" },
+  { href: "#contact", label: "Contact", icon: "mail" },
+] as const;
 
 const itemClass =
-  "dock-item group flex min-w-[3.75rem] shrink-0 flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 text-ink transition-colors duration-200 hover:bg-win-3 sm:min-w-[4.5rem]";
+  "dock-item flex min-w-[3.5rem] shrink-0 flex-col items-center gap-1 rounded-xl px-1 pt-1 pb-0.5 sm:min-w-[4.75rem]";
+const labelClass = "dock-label font-mono text-[9.5px] leading-tight font-medium text-ink sm:text-[11px]";
 ---
 
-<nav
-  aria-label="Primary"
-  class="fixed inset-x-0 bottom-3 z-50 flex justify-center px-2 sm:bottom-4"
->
+<div class="pixel-band" aria-hidden="true"></div>
+
+<nav aria-label="Primary" class="fixed inset-x-0 bottom-2 z-50 flex justify-center px-2 sm:bottom-3">
   <div
-    class="win max-w-full !rounded-2xl !shadow-[4px_4px_0_0_var(--shadow)]"
+    class="max-w-full overflow-hidden rounded-[1.25rem] border-2 border-line bg-win shadow-[4px_4px_0_0_var(--shadow)] dark:border-ink-2"
   >
-    <ul class="flex items-stretch gap-0.5 overflow-x-auto p-1.5 [scrollbar-width:none]">
+    <ul class="flex items-start gap-0.5 overflow-x-auto px-2 py-2 [scrollbar-width:none] sm:gap-1 sm:px-3">
       {
         items.map((item) => (
           <li class="flex">
             <a href={item.href} class={itemClass} data-dock={item.href.slice(1)}>
-              <span class="material-symbols-outlined !text-[22px]" aria-hidden="true">
-                {item.icon}
+              <span class="dock-tile">
+                <PixelIcon name={item.icon} />
               </span>
-              <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">{item.label}</span>
+              <span class={labelClass}>{item.label}</span>
             </a>
           </li>
         ))
       }
-      <li class="mx-1 w-px shrink-0 self-stretch bg-line-soft" aria-hidden="true"></li>
+      <li class="mx-1 my-2 w-0.5 shrink-0 self-stretch rounded-full bg-line-soft" aria-hidden="true"></li>
       <li class="flex">
         <a href={profile.resume} target="_blank" rel="noopener noreferrer" class={itemClass}>
-          <span class="material-symbols-outlined !text-[22px]" aria-hidden="true">picture_as_pdf</span>
-          <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">Resume</span>
+          <span class="dock-tile">
+            <PixelIcon name="doc" />
+          </span>
+          <span class={labelClass}>Resume</span>
           <span class="sr-only">(PDF, opens in a new tab)</span>
         </a>
       </li>
       <li class="flex">
         <button type="button" id="theme-toggle" class={itemClass} aria-pressed="false">
-          <span class="flex dark:hidden" aria-hidden="true">
-            <span class="material-symbols-outlined !text-[22px]">dark_mode</span>
+          <span class="dock-tile">
+            <span class="flex dark:hidden"><PixelIcon name="moon" /></span>
+            <span class="hidden dark:flex"><PixelIcon name="sun" /></span>
           </span>
-          <span class="hidden dark:flex" aria-hidden="true">
-            <span class="material-symbols-outlined !text-[22px]">light_mode</span>
-          </span>
-          <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">
+          <span class={labelClass}>
             <span class="dark:hidden">Dark</span><span class="hidden dark:inline">Light</span>
           </span>
           <span class="sr-only">mode</span>
@@ -60,21 +61,6 @@ const itemClass =
     </ul>
   </div>
 </nav>
-
-<style>
-  .dock-item[aria-current="true"] {
-    background: var(--accent);
-    color: var(--on-accent);
-  }
-  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
-    .dock-item:hover .material-symbols-outlined {
-      transform: translateY(-2px);
-    }
-    .dock-item .material-symbols-outlined {
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-  }
-</style>
 
 <script>
   // ---- theme toggle ----

@@ -7,8 +7,13 @@
 
 :root {
   color-scheme: light;
-  --desk: #dde1ea;
-  --desk-dot: #b9c0d0;
+  --desk: #b4cbe8;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.05 0 0 0 0 0.1 0 0 0 0 0.25 0 0 0 3 -1.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 3 -2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --band: #0e1a33;
+  --px-line: #11131a;
+  --px-fill: #ffd23f;
+  --px-paper: #ffffff;
   --win: #ffffff;
   --win-2: #f1f3f8;
   --win-3: #e5e9f1;
@@ -28,8 +33,12 @@
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --desk: #0d0f16;
-  --desk-dot: #232838;
+  --desk: #0d1120;
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.62 0 0 0 0 1 0 0 0 2.6 -1.75'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --band: #222a47;
+  --px-line: #e8eaf2;
+  --px-fill: #ffd23f;
+  --px-paper: #2b3252;
   --win: #161925;
   --win-2: #1c2030;
   --win-3: #242a3d;
@@ -86,8 +95,7 @@ html {
 
 body {
   background-color: var(--desk);
-  background-image: radial-gradient(circle, var(--desk-dot) 1px, transparent 1.2px);
-  background-size: 22px 22px;
+  background-image: var(--grain);
   color: var(--ink);
   font-family: var(--font-sans);
   font-size: 1rem;
@@ -214,6 +222,66 @@ section[id] {
     opacity: 1;
     filter: none;
   }
+}
+
+/* ---------- pixel band behind the dock ---------- */
+
+.pixel-band {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 40;
+  height: 48px;
+  pointer-events: none;
+  background: var(--band);
+  -webkit-mask: url("/pixel-band.svg") repeat-x left bottom / auto 100%;
+  mask: url("/pixel-band.svg") repeat-x left bottom / auto 100%;
+}
+@media (min-width: 640px) {
+  .pixel-band {
+    height: 56px;
+  }
+}
+
+/* ---------- dock tiles ---------- */
+
+.dock-tile {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: var(--win);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.2s ease, border-color 0.2s ease;
+}
+:root[data-theme="dark"] .dock-tile {
+  border-color: var(--ink-2);
+}
+.dock-item:hover .dock-tile {
+  transform: translateY(-3px);
+  box-shadow: 0 3px 0 0 var(--shadow);
+}
+.dock-item[aria-current="true"] .dock-tile {
+  background: var(--accent-wash);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.dock-item[aria-current="true"] .dock-label {
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dock-item:hover .dock-tile {
+    transform: none;
+  }
+}
+
+.px-icon {
+  width: 28px;
+  height: 28px;
+  image-rendering: pixelated;
 }
 
 /* ---------- small primitives ---------- */

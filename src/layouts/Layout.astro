@@ -19,8 +19,8 @@ const { title, description } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#dde1ea" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#0d0f16" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#b4cbe8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d1120" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <script is:inline>
       (function () {
@@ -38,7 +38,7 @@ const { title, description } = Astro.props;
   <body class="min-h-dvh overflow-x-hidden">
     <Fragment set:html={`<!--
 THESIS: The portfolio is a desktop session on "lhexus.os": every section is a window, the dock is the nav, and the window you are reading takes focus (cobalt title bar). Refuses the stacked hero + card-grid template.
-OWN-WORLD: Blue-gray dotted desktop (dark: ink-navy), white/navy windows with 1.5px ink borders, 10px corners and hard 5px offset shadows; cobalt #2F4BFF focus, signal yellow #FFD23F selection; Hanken Grotesk 800 caps display, JetBrains Mono for filenames, data and dates; Material Symbols icons.
+OWN-WORLD: Sky-blue grainy desktop with a navy pixel-block band behind a tiled pixel-icon dock (dark: deep navy), white/navy windows with 1.5px ink borders, 10px corners and hard 5px offset shadows; cobalt #2F4BFF focus, signal yellow #FFD23F selection; Hanken Grotesk 800 caps display, JetBrains Mono for filenames, data and dates; Material Symbols icons.
 STORY: Visitor meets Lhexus by name and face, reads the objective, opens work samples, checks skills with proof, verifies certificates, then contacts.
 FIRST VIEWPORT: Menu bar with Manila clock; giant two-line caps name left, photo window right, course status line, role with caret, contact chips; dock fixed at bottom.
 FORM: Pinned by brief (retro desktop OS), seed: brief-pinned (no roll).
