@@ -21,33 +21,35 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="theme-color" content="#b4cbe8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      // Show the boot screen once per session (skipped for reduced motion).
+      (function () {
+        var booted = false;
+        try {
+          booted = sessionStorage.getItem("booted") === "1";
+        } catch (e) {}
+        if (!booted && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          var html = document.documentElement;
+          html.classList.add("booting");
+          setTimeout(function () {
+            html.classList.remove("booting");
+          }, 4000);
+        }
+      })();
+    </script>
   </head>
   <body class="min-h-dvh overflow-x-hidden">
     <Fragment set:html={`<!--
-THESIS: The portfolio is a desktop session on "lhexus.os": every section is a window, the dock is the nav, and the window you are reading takes focus (cobalt title bar). Refuses the stacked hero + card-grid template.
+THESIS: The portfolio is a desktop session on "lhexus.os": every section is an app window with working minimize/maximize/close/drag and tabs, the dock is the launcher, and the window you are reading takes focus (cobalt title bar). Refuses the stacked hero + card-grid template.
 OWN-WORLD: Sky-blue grainy desktop with a navy pixel-block band behind a tiled pixel-icon dock, white/navy windows with 1.5px ink borders, 10px corners and hard 5px offset shadows; cobalt #2F4BFF focus, signal yellow #FFD23F selection; Hanken Grotesk 800 caps display, JetBrains Mono for filenames, data and dates; Material Symbols icons.
 STORY: Visitor meets Lhexus by name and face, reads the objective, opens work samples, checks skills with proof, verifies certificates, then contacts.
-FIRST VIEWPORT: Menu bar with Manila clock; giant two-line caps name left, photo window right, course status line, role with caret, contact chips; dock fixed at bottom.
+FIRST VIEWPORT: Short boot screen, then the desktop: giant caps name painted on the wallpaper, desktop shortcut icons, Welcome app window with photo, status and contacts; dock fixed at bottom.
 FORM: Pinned by brief (retro desktop OS), seed: brief-pinned (no roll).
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 -->`} />
     <slot />
     <script>
-      document.documentElement.classList.add("js-ready");
-
-      // Windows "open" as they scroll into view.
-      const reveal = new IntersectionObserver(
-        (entries) => {
-          for (const e of entries) {
-            if (e.isIntersecting) {
-              e.target.classList.add("is-open");
-              reveal.unobserve(e.target);
-            }
-          }
-        },
-        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
-      );
-      document.querySelectorAll<HTMLElement>(".win[data-reveal]").forEach((w) => reveal.observe(w));
+      import "../scripts/os";
     </script>
   </body>
 </html>

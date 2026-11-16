@@ -1,0 +1,33 @@
+---
+/**
+ * Tab strip for an app window. Panels are siblings rendered by the parent
+ * as <div data-tabpanel="{group}-{id}">. Without JS every panel stays visible.
+ */
+interface Props {
+  group: string;
+  tabs: { id: string; label: string; count?: number }[];
+  label: string;
+}
+
+const { group, tabs, label } = Astro.props;
+---
+
+<div class="win-tabs" role="tablist" aria-label={label} data-tabs={group}>
+  {
+    tabs.map((t, i) => (
+      <button
+        type="button"
+        role="tab"
+        id={`tab-${group}-${t.id}`}
+        aria-controls={`panel-${group}-${t.id}`}
+        aria-selected={i === 0 ? "true" : "false"}
+        tabindex={i === 0 ? 0 : -1}
+        class="win-tab"
+        data-tab={`${group}-${t.id}`}
+      >
+        {t.label}
+        {t.count !== undefined && <span class="win-tab-count tabular">{t.count}</span>}
+      </button>
+    ))
+  }
+</div>

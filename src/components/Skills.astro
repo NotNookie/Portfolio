@@ -1,65 +1,82 @@
 ---
 import Window from "./Window.astro";
+import Tabs from "./Tabs.astro";
 import { technicalSkills, softSkills } from "../data/site";
+
+const techCount = technicalSkills.reduce((n, g) => n + g.items.length, 0);
 ---
 
 <section id="skills" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-  <Window title="skills.exe" icon="construction" meta="technical + soft" section="skills">
-    <div class="p-4 sm:p-8">
-      <h2 class="text-3xl font-extrabold tracking-[-0.02em] sm:text-4xl">Skills &amp; Expertise</h2>
+  <Window
+    title="Skills & Expertise"
+    file="skills.exe"
+    icon="chip"
+    section="skills"
+    status={`${techCount} technical · ${softSkills.length} soft skills`}
+  >
+    <Tabs
+      slot="toolbar"
+      group="skills"
+      label="Skill categories"
+      tabs={[
+        { id: "technical", label: "Technical", count: techCount },
+        { id: "soft", label: "Soft skills", count: softSkills.length },
+      ]}
+    />
 
-      <div class="mt-6 grid gap-8 sm:mt-8 lg:grid-cols-12 lg:gap-10">
-        <div class="lg:col-span-7">
-          <h3 class="flex items-center gap-2 text-xl font-bold">
-            <span class="material-symbols-outlined text-accent-ink" aria-hidden="true">terminal</span>
-            Technical
-          </h3>
-          <dl class="mt-4 divide-y divide-line-soft border-y border-line-soft">
-            {
-              technicalSkills.map((group) => (
-                <div class="grid gap-2 py-4 sm:grid-cols-[10rem_1fr] sm:gap-4">
-                  <dt class="flex items-center gap-1.5 self-start font-mono text-[13px] font-medium sm:pt-1">
-                    <span class="material-symbols-outlined !text-[17px] text-ink-2" aria-hidden="true">{group.icon}</span>
-                    {group.label}
-                  </dt>
-                  <dd>
-                    <ul class="flex flex-wrap gap-1.5">
-                      {group.items.map((item) => (
-                        <li class="chip">{item}</li>
-                      ))}
-                    </ul>
-                  </dd>
-                </div>
-              ))
-            }
-          </dl>
-        </div>
+    <div
+      id="panel-skills-technical"
+      role="tabpanel"
+      aria-labelledby="tab-skills-technical"
+      data-tabpanel="skills-technical"
+      class="p-4 sm:p-8"
+    >
+      <dl class="divide-y divide-line-soft">
+        {
+          technicalSkills.map((group) => (
+            <div class="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] sm:gap-4">
+              <dt class="flex items-center gap-1.5 self-start font-mono text-[13px] font-medium sm:pt-1">
+                <span class="material-symbols-outlined !text-[17px] text-ink-2" aria-hidden="true">{group.icon}</span>
+                {group.label}
+              </dt>
+              <dd>
+                <ul class="flex flex-wrap gap-1.5">
+                  {group.items.map((item) => (
+                    <li class="chip">{item}</li>
+                  ))}
+                </ul>
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
 
-        <div class="lg:col-span-5">
-          <h3 class="flex items-center gap-2 text-xl font-bold">
-            <span class="material-symbols-outlined text-accent-ink" aria-hidden="true">handshake</span>
-            Soft skills
-          </h3>
-          <ul class="mt-4 space-y-2.5">
-            {
-              softSkills.map((s) => (
-                <li class="flex gap-3 rounded-lg border border-line-soft bg-win-2 p-3.5">
-                  <span
-                    class="grid size-9 shrink-0 place-items-center rounded-md bg-accent-wash text-accent-ink"
-                    aria-hidden="true"
-                  >
-                    <span class="material-symbols-outlined !text-[20px]">{s.icon}</span>
-                  </span>
-                  <div>
-                    <p class="font-bold leading-snug">{s.skill}</p>
-                    <p class="mt-0.5 text-[14.5px] leading-relaxed text-ink-2">{s.proof}</p>
-                  </div>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </div>
+    <div
+      id="panel-skills-soft"
+      role="tabpanel"
+      aria-labelledby="tab-skills-soft"
+      data-tabpanel="skills-soft"
+      class="p-4 sm:p-8"
+    >
+      <ul class="grid gap-3 md:grid-cols-2">
+        {
+          softSkills.map((s) => (
+            <li class="flex gap-3 rounded-lg border border-line-soft bg-win-2 p-4">
+              <span
+                class="grid size-10 shrink-0 place-items-center rounded-md bg-accent-wash text-accent-ink"
+                aria-hidden="true"
+              >
+                <span class="material-symbols-outlined !text-[21px]">{s.icon}</span>
+              </span>
+              <div>
+                <p class="font-bold leading-snug">{s.skill}</p>
+                <p class="mt-0.5 text-[14.5px] leading-relaxed text-ink-2">{s.proof}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </Window>
 </section>

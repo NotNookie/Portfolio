@@ -1,45 +1,111 @@
 ---
 /**
- * A desktop window. The window that owns the current section gets
- * data-active="true" (cobalt title bar) from the Dock script.
+ * An application window. Behaviour (minimize / maximize / close / drag /
+ * focus / tabs) lives in src/scripts/os.ts and keys off the data attributes.
  */
+import PixelIcon, { type PixelIconName } from "./PixelIcon.astro";
+
 interface Props {
+  /** App name shown in the title bar; rendered as the section heading. */
   title: string;
-  icon?: string;
-  meta?: string;
+  /** Filename shown next to the title, e.g. "projects.exe". */
+  file: string;
+  icon: PixelIconName;
+  /** Section id this window belongs to (drives dock + focus). */
+  section: string;
+  /** Optional path shown in the address bar row. */
+  path?: string;
+  /** Optional status bar text. */
+  status?: string;
+  /** Heading level for the title; the hero uses an h1 elsewhere. */
+  as?: "h2" | "p";
   class?: string;
   bodyClass?: string;
-  section?: string;
   reveal?: boolean;
-  labelledby?: string;
+  closable?: boolean;
 }
 
 const {
   title,
-  icon = "description",
-  meta,
+  file,
+  icon,
+  section,
+  path,
+  status,
+  as: Heading = "h2",
   class: className = "",
   bodyClass = "",
-  section,
   reveal = true,
-  labelledby,
+  closable = true,
 } = Astro.props;
+
+const titleId = `${section}-title`;
 ---
 
 <div
   class:list={["win", className]}
   data-window={section}
   data-reveal={reveal ? "" : undefined}
-  role={labelledby ? "group" : undefined}
-  aria-labelledby={labelledby}
+  data-state="open"
+  role="region"
+  aria-labelledby={titleId}
 >
-  <div class="win-bar">
-    <span class="win-dots" aria-hidden="true"><span></span><span></span><span></span></span>
-    <span class="material-symbols-outlined !text-base" aria-hidden="true">{icon}</span>
-    <span class="win-title">{title}</span>
-    {meta && <span class="hidden sm:inline tabular opacity-80">{meta}</span>}
+  <div class="win-bar" data-drag-handle>
+    <PixelIcon name={icon} class="!size-[18px] shrink-0" />
+    <Heading id={titleId} class="win-title">
+      {title}
+      <span class="win-file">{file}</span>
+    </Heading>
+    <div class="win-controls">
+      <button type="button" class="win-btn" data-action="minimize" aria-label={`Minimize ${title}`} aria-expanded="true">
+        <svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="7" width="6" height="1.5" /></svg>
+      </button>
+      <button type="button" class="win-btn" data-action="maximize" aria-label={`Maximize ${title}`} aria-pressed="false">
+        <svg class="ico-max" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true"
+          ><path d="M1.5 1.5h7v7h-7z M1.5 1.5h7v1.8h-7z" fill="none" stroke="currentColor" stroke-width="1.3" /></svg
+        >
+        <svg class="ico-restore" viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true"
+          ><path d="M3.5 1h5.5v5.5 M1 3.5h5.5v5.5h-5.5z" fill="none" stroke="currentColor" stroke-width="1.3" /></svg
+        >
+      </button>
+      {
+        closable && (
+          <button type="button" class="win-btn win-btn-close" data-action="close" aria-label={`Close ${title}`}>
+            <svg viewBox="0 0 10 10" shape-rendering="crispEdges" aria-hidden="true">
+              <path d="M2 2l6 6M8 2l-6 6" stroke="currentColor" stroke-width="1.6" fill="none" />
+            </svg>
+          </button>
+        )
+      }
+    </div>
   </div>
-  <div class={bodyClass}>
-    <slot />
+
+  <div class="win-body" data-win-body>
+    {
+      path && (
+        <div class="win-address">
+          <span class="material-symbols-outlined !text-[16px]" aria-hidden="true">
+            folder_open
+          </span>
+          <span class="truncate">{path}</span>
+        </div>
+      )
+    }
+    <slot name="toolbar" />
+    <div class:list={["win-content", bodyClass]}>
+      <slot />
+    </div>
+    {status && <div class="win-status">{status}</div>}
   </div>
 </div>
+
+{
+  closable && (
+    <button type="button" class="win-reopen" data-reopen={section} hidden>
+      <PixelIcon name={icon} class="!size-5" />
+      <span>
+        <strong>{file}</strong> was closed. Click to reopen
+      </span>
+    </button>
+  )
+}

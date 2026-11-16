@@ -1,0 +1,96 @@
+---
+import { profile } from "../data/site";
+---
+
+<div id="boot" class="boot" aria-hidden="true">
+  <div class="boot-card">
+    <span class="boot-logo">L</span>
+    <p class="boot-name">{profile.firstName} {profile.lastName}</p>
+    <p class="boot-msg">starting lhexus.os…</p>
+    <div class="boot-bar"><span class="boot-fill"></span></div>
+    <p class="boot-skip">click or press any key to skip</p>
+  </div>
+</div>
+
+<style>
+  .boot {
+    display: none;
+  }
+  :global(html.booting) .boot {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    background-color: var(--desk);
+    background-image: var(--grain);
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+  :global(html.booting) {
+    overflow: hidden;
+  }
+  .boot.boot-out {
+    opacity: 0;
+  }
+  .boot-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 2.5rem;
+    border: 2px solid var(--line);
+    border-radius: 16px;
+    background: var(--win);
+    box-shadow: 5px 5px 0 0 var(--shadow);
+  }
+  .boot-logo {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 2px solid var(--line);
+    border-radius: 12px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font-size: 1.75rem;
+    font-weight: 800;
+  }
+  .boot-name {
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .boot-msg,
+  .boot-skip {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-2);
+  }
+  .boot-skip {
+    font-size: 0.7rem;
+  }
+  .boot-bar {
+    width: 14rem;
+    height: 1.1rem;
+    padding: 2px;
+    border: 2px solid var(--line);
+    border-radius: 6px;
+  }
+  .boot-fill {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: repeating-linear-gradient(90deg, var(--accent) 0 10px, transparent 10px 13px);
+    transform-origin: left;
+    animation: boot-fill 1.4s steps(14, end) forwards;
+  }
+  @keyframes boot-fill {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>

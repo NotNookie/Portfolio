@@ -8,14 +8,18 @@ const isWide = (i: number) => i === 0 || (i === projects.length - 1 && (projects
 ---
 
 <section id="projects" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-  <Window title="projects.exe" icon="folder_open" meta={`${projects.length} items`} section="projects">
+  <Window
+    title="Work Samples"
+    file="projects.exe"
+    icon="folder"
+    section="projects"
+    path="~/lhexus/projects"
+    status={`${projects.length} items · ${projects.filter((p) => p.liveUrl).length} live`}
+  >
     <div class="p-4 sm:p-8">
-      <div class="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-8">
-        <h2 class="text-3xl font-extrabold tracking-[-0.02em] sm:text-4xl">Work Samples</h2>
-        <p class="max-w-[46ch] text-ink-2">
+      <p class="mb-6 max-w-[60ch] text-ink-2 sm:mb-8">
           Things I've built, shipped, or am building right now, from client work to a game jam entry.
-        </p>
-      </div>
+      </p>
 
       <div class="grid gap-5 sm:gap-6 md:grid-cols-2">
         {
