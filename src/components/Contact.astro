@@ -1,106 +1,101 @@
 ---
-import { socialLinks } from "../data/site";
+import Window from "./Window.astro";
+import { contactGroups, profile } from "../data/site";
+
+const external = (href: string) => href.startsWith("http") || href.endsWith(".pdf");
 ---
 
-<section class="py-24 border-b border-outline-variant" id="contact">
-  <div class="max-w-7xl mx-auto px-container-padding">
-    <div
-      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
-    >
-      <div class="flex items-center gap-4">
-        <span
-          class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
-          >#03</span
-        >
-        <h2 class="font-headline-lg text-headline-lg">Get in Touch</h2>
-      </div>
-      <p class="font-code-comment text-code-comment text-on-surface-variant">
-        // contact.tsx
-      </p>
-    </div>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-      <div class="space-y-8">
-        <div class="p-8 border border-outline-variant bg-surface-container-lowest">
-          <p class="text-body-md mb-8">
-            Have a project in mind, or just want to say hi? Send a message - I read every one.
-          </p>
-          <div class="space-y-6">
-            {
-              socialLinks.map((link) => (
-                <a
-                  class="flex items-center gap-4 group"
-                  href={link.href}
-                  target={link.href.startsWith("http") ? "_blank" : undefined}
-                  rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                >
-                  <span class="w-10 h-10 border border-outline-variant flex items-center justify-center group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                    <span class="material-symbols-outlined" aria-hidden="true">
-                      {link.icon}
-                    </span>
-                  </span>
-                  <span class="font-code-label">{link.label}</span>
-                </a>
-              ))
-            }
-          </div>
+<section id="contact" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+  <Window title="say_hello.txt" icon="alternate_email" meta="contact" section="contact">
+    <div class="grid gap-10 p-5 sm:p-8 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-7">
+        <h2 class="text-[clamp(2.25rem,6vw,4.25rem)] leading-[0.95] font-extrabold tracking-[-0.03em] text-balance uppercase">
+          Let's build something <span class="text-accent">that ships.</span>
+        </h2>
+        <p class="mt-5 max-w-[52ch] text-lg text-ink-2">
+          Have a project in mind, or just want to say hi? Send a message - I read every one.
+        </p>
+
+        <div class="mt-8 grid gap-6 sm:grid-cols-3">
+          {
+            contactGroups.map((group) => (
+              <div>
+                <p class="label">// {group.label}</p>
+                <ul class="mt-3 space-y-2">
+                  {group.links.map((link) => (
+                    <li>
+                      <a
+                        href={link.href}
+                        target={external(link.href) ? "_blank" : undefined}
+                        rel={external(link.href) ? "noopener noreferrer" : undefined}
+                        class="inline-flex items-start gap-2 text-[15px] font-medium break-all hover:text-accent-ink hover:underline"
+                      >
+                        <span class="material-symbols-outlined !text-[18px] text-ink-2" aria-hidden="true">
+                          {link.icon}
+                        </span>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
         </div>
       </div>
-      <div class="bg-surface border border-outline-variant p-8 window-shadow">
-        <form class="space-y-6" method="POST" action="mailto:lhexuspaul@gmail.com">
-          <div class="space-y-1">
-            <label
-              for="contact-name"
-              class="font-code-label text-[10px] uppercase text-on-surface-variant"
-              >Name</label
-            >
+
+      <div class="lg:col-span-5">
+        <form
+          class="space-y-4 rounded-lg border-[1.5px] border-line bg-win-2 p-5"
+          method="POST"
+          action={`mailto:${profile.email}`}
+          enctype="text/plain"
+        >
+          <p class="flex items-center gap-2 font-mono text-[13px] font-medium">
+            <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">edit_note</span>
+            New message
+          </p>
+          <div class="space-y-1.5">
+            <label for="contact-name" class="label">Name</label>
             <input
               id="contact-name"
               name="name"
-              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
-              placeholder="Your Name"
               type="text"
               autocomplete="name"
               required
+              placeholder="Your name"
+              class="w-full rounded-md border-[1.5px] border-line bg-win px-3 py-2.5 placeholder:text-ink-2/80 focus:border-accent focus:outline-none"
             />
           </div>
-          <div class="space-y-1">
-            <label
-              for="contact-email"
-              class="font-code-label text-[10px] uppercase text-on-surface-variant"
-              >Email</label
-            >
+          <div class="space-y-1.5">
+            <label for="contact-email" class="label">Email</label>
             <input
               id="contact-email"
               name="email"
-              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
-              placeholder="email@example.com"
               type="email"
               autocomplete="email"
               required
+              placeholder="email@example.com"
+              class="w-full rounded-md border-[1.5px] border-line bg-win px-3 py-2.5 placeholder:text-ink-2/80 focus:border-accent focus:outline-none"
             />
           </div>
-          <div class="space-y-1">
-            <label
-              for="contact-message"
-              class="font-code-label text-[10px] uppercase text-on-surface-variant"
-              >Message</label
-            >
+          <div class="space-y-1.5">
+            <label for="contact-message" class="label">Message</label>
             <textarea
               id="contact-message"
               name="message"
-              class="w-full bg-surface-container-low border border-outline-variant focus:ring-0 focus:border-primary font-code-label p-3"
-              placeholder="How can I help you?"
               rows="4"
-              required></textarea>
+              required
+              placeholder="How can I help you?"
+              class="w-full resize-y rounded-md border-[1.5px] border-line bg-win px-3 py-2.5 placeholder:text-ink-2/80 focus:border-accent focus:outline-none"
+            ></textarea>
           </div>
-          <button
-            type="submit"
-            class="w-full bg-primary text-on-primary py-4 font-bold flex items-center justify-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all"
-          >
-            Send message <span class="material-symbols-outlined" aria-hidden="true">send</span>
+          <button type="submit" class="btn btn-primary w-full">
+            Send message
+            <span class="material-symbols-outlined !text-[18px]" aria-hidden="true">send</span>
           </button>
         </form>
       </div>
     </div>
-  </div>
+  </Window>
 </section>

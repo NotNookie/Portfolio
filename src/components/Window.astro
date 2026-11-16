@@ -1,0 +1,45 @@
+---
+/**
+ * A desktop window. The window that owns the current section gets
+ * data-active="true" (cobalt title bar) from the Dock script.
+ */
+interface Props {
+  title: string;
+  icon?: string;
+  meta?: string;
+  class?: string;
+  bodyClass?: string;
+  section?: string;
+  reveal?: boolean;
+  labelledby?: string;
+}
+
+const {
+  title,
+  icon = "description",
+  meta,
+  class: className = "",
+  bodyClass = "",
+  section,
+  reveal = true,
+  labelledby,
+} = Astro.props;
+---
+
+<div
+  class:list={["win", className]}
+  data-window={section}
+  data-reveal={reveal ? "" : undefined}
+  role={labelledby ? "group" : undefined}
+  aria-labelledby={labelledby}
+>
+  <div class="win-bar">
+    <span class="win-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+    <span class="material-symbols-outlined !text-base" aria-hidden="true">{icon}</span>
+    <span class="win-title">{title}</span>
+    {meta && <span class="hidden sm:inline tabular opacity-80">{meta}</span>}
+  </div>
+  <div class={bodyClass}>
+    <slot />
+  </div>
+</div>

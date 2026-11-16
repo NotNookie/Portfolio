@@ -1,67 +1,84 @@
 ---
-import { projects } from "../data/site";
+import Window from "./Window.astro";
+import { projects, type Project } from "../data/site";
+
+// First project is featured full-width; if that leaves an odd one out,
+// the last project goes full-width too (image on the right).
+const isWide = (i: number) => i === 0 || (i === projects.length - 1 && (projects.length - 1) % 2 === 1);
 ---
 
-<section class="py-24 border-b border-outline-variant dot-grid" id="projects">
-  <div class="max-w-7xl mx-auto px-container-padding">
-    <div
-      class="flex flex-col md:flex-row justify-between items-baseline mb-12 border-b border-outline-variant pb-4 border-dashed"
-    >
-      <div class="flex items-center gap-4">
-        <span
-          class="bg-surface-container px-3 py-1 text-[10px] font-code-label text-on-surface-variant border border-outline-variant"
-          >#01</span
-        >
-        <h2 class="font-headline-lg text-headline-lg">Selected Projects</h2>
+<section id="projects" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+  <Window title="projects.exe" icon="folder_open" meta={`${projects.length} items`} section="projects">
+    <div class="p-4 sm:p-8">
+      <div class="mb-6 flex flex-wrap items-end justify-between gap-3 sm:mb-8">
+        <h2 class="text-3xl font-extrabold tracking-[-0.02em] sm:text-4xl">Work Samples</h2>
+        <p class="max-w-[46ch] text-ink-2">
+          Things I've built, shipped, or am building right now, from client work to a game jam entry.
+        </p>
       </div>
-      <p class="font-code-comment text-code-comment text-on-surface-variant">
-        // projects.jsx
-      </p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {
-        projects.map((project) => (
-          <article class="bg-surface border border-outline-variant rounded-2xl flex flex-col overflow-hidden hover:border-primary hover:shadow-lg transition-all group">
-            <div class="w-full h-56 bg-surface-container-low overflow-hidden relative border-b border-outline-variant">
-              {project.imageUrl ? (
-                <img
-                  src={project.imageUrl}
-                  alt={project.imageAlt}
-                  width={640}
-                  height={448}
-                  loading="lazy"
-                  decoding="async"
-                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
-              ) : (
-                <div
-                  class="w-full h-full dot-grid flex items-center justify-center"
-                  role="img"
-                  aria-label={project.imageAlt}
-                >
-                  <span class="material-symbols-outlined text-5xl text-on-surface-variant" aria-hidden="true">
-                    {project.tags[0]?.icon ?? "code"}
-                  </span>
-                </div>
-              )}
-            </div>
-            <div class="p-6 flex flex-col justify-between flex-grow gap-6">
-              <div class="space-y-4">
-                <div class="flex justify-between items-start">
-                  <h3 class="font-headline-lg text-xl group-hover:text-primary transition-colors">
+
+      <div class="grid gap-5 sm:gap-6 md:grid-cols-2">
+        {
+          projects.map((project: Project, i: number) => (
+            <article
+              class:list={[
+                "lift flex flex-col overflow-hidden rounded-lg border-[1.5px] border-line bg-win shadow-[3px_3px_0_0_var(--shadow)]",
+                isWide(i) && "md:col-span-2 md:grid md:grid-cols-[1.15fr_1fr]",
+                isWide(i) && i > 0 && "md:grid-cols-[1fr_1.15fr]",
+              ]}
+            >
+              <div
+                class:list={[
+                  "relative overflow-hidden border-b-[1.5px] border-line bg-win-3",
+                  isWide(i) ? "aspect-[16/10] md:aspect-auto md:h-full md:min-h-80 md:border-b-0" : "aspect-[16/10]",
+                  isWide(i) && (i === 0 ? "md:border-r-[1.5px]" : "md:order-2 md:border-l-[1.5px]"),
+                ]}
+              >
+                {project.imageUrl ? (
+                  <img
+                    src={project.imageUrl}
+                    alt={project.imageAlt}
+                    width={960}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
+                    class="absolute inset-0 h-full w-full object-cover object-top"
+                  />
+                ) : (
+                  <div class="absolute inset-0 grid place-items-center" role="img" aria-label={project.imageAlt}>
+                    <span class="material-symbols-outlined !text-5xl text-ink-2" aria-hidden="true">
+                      {project.tags[0]?.icon ?? "code"}
+                    </span>
+                  </div>
+                )}
+              </div>
+
+              <div class="flex flex-1 flex-col gap-4 p-5 sm:p-6">
+                <div>
+                  {project.role && (
+                    <p class="font-mono text-[12px] leading-snug font-medium text-accent-ink">{project.role}</p>
+                  )}
+                  <h3
+                    class:list={[
+                      "mt-1.5 font-extrabold tracking-[-0.015em] text-balance",
+                      isWide(i) ? "text-2xl sm:text-3xl" : "text-xl sm:text-2xl",
+                    ]}
+                  >
                     {project.title}
                   </h3>
-                  <span class="font-code-label text-[10px] text-on-surface-variant uppercase bg-surface-container px-2 py-1 rounded">
-                    {project.id}
-                  </span>
                 </div>
-                <ul class="flex flex-wrap gap-2">
+                <p class="text-ink-2">{project.description}</p>
+                <div class="rounded-md bg-win-2 p-3.5">
+                  <p class="label !text-[11px]">Impact</p>
+                  <p class="mt-1 text-[15px] leading-relaxed">{project.impact}</p>
+                </div>
+                <ul class="flex flex-wrap gap-1.5" aria-label="Tech stack">
                   {project.tags.map((tag) => (
-                    <li class="bg-surface-container-high px-2.5 py-1 text-[10px] font-code-label rounded-full flex items-center gap-1">
+                    <li class="chip">
                       {tag.iconSrc ? (
-                        <img src={tag.iconSrc} alt="" width={12} height={12} class="w-3 h-3 object-contain" />
+                        <img src={tag.iconSrc} alt="" width={14} height={14} class="size-3.5 rounded-[3px] object-contain dark:bg-white dark:p-px" />
                       ) : (
-                        <span class="material-symbols-outlined text-[12px]" aria-hidden="true">
+                        <span class="material-symbols-outlined !text-[14px]" aria-hidden="true">
                           {tag.icon}
                         </span>
                       )}
@@ -69,53 +86,27 @@ import { projects } from "../data/site";
                     </li>
                   ))}
                 </ul>
-                {project.role && (
-                  <p class="font-code-label text-[11px] uppercase tracking-wider text-primary">
-                    {project.role}
-                  </p>
-                )}
-                <p class="font-code-comment text-sm text-on-surface-variant">
-                  {project.description}
-                </p>
-                <div class="pl-4 border-l-2 border-primary py-1 mt-2">
-                  <span class="font-bold text-xs uppercase tracking-widest text-primary block mb-1">
-                    Impact
-                  </span>
-                  <p class="text-sm font-code-label text-on-surface-variant">{project.impact}</p>
+                <div class="mt-auto flex flex-wrap gap-2.5 pt-1">
+                  {project.liveUrl && (
+                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary !px-3.5 !py-2 !text-sm">
+                      <span class="material-symbols-outlined !text-[16px]" aria-hidden="true">open_in_new</span>
+                      Live
+                      <span class="sr-only">: {project.title} (opens in a new tab)</span>
+                    </a>
+                  )}
+                  {project.codeUrl && (
+                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" class="btn btn-ghost !px-3.5 !py-2 !text-sm">
+                      <span class="material-symbols-outlined !text-[16px]" aria-hidden="true">code</span>
+                      Code
+                      <span class="sr-only">: {project.title} (opens in a new tab)</span>
+                    </a>
+                  )}
                 </div>
               </div>
-              <div class="flex gap-4 pt-4 border-t border-outline-variant border-dashed">
-                {project.liveUrl && (
-                  <a
-                    href={project.liveUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-primary font-bold text-sm flex items-center justify-center gap-1 hover:opacity-80 transition-opacity"
-                  >
-                    View Project
-                    <span class="material-symbols-outlined text-[14px]" aria-hidden="true">
-                      north_east
-                    </span>
-                  </a>
-                )}
-                {project.codeUrl && (
-                  <a
-                    href={project.codeUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="text-on-surface-variant font-bold text-sm flex items-center justify-center gap-1 hover:text-on-surface transition-colors"
-                  >
-                    <span class="material-symbols-outlined text-[14px]" aria-hidden="true">
-                      code
-                    </span>
-                    View Code
-                  </a>
-                )}
-              </div>
-            </div>
-          </article>
-        ))
-      }
+            </article>
+          ))
+        }
+      </div>
     </div>
-  </div>
+  </Window>
 </section>

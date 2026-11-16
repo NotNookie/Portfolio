@@ -1,8 +1,6 @@
 ---
 import "@fontsource-variable/hanken-grotesk/index.css";
-import "@fontsource-variable/hanken-grotesk/wght-italic.css";
 import "@fontsource-variable/jetbrains-mono/index.css";
-import "@fontsource-variable/jetbrains-mono/wght-italic.css";
 import "material-symbols/outlined.css";
 import "../styles/global.css";
 
@@ -15,15 +13,54 @@ const { title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#dde1ea" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0d0f16" media="(prefers-color-scheme: dark)" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem("theme");
+        } catch (e) {}
+        var dark =
+          stored === "dark" ||
+          (stored !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.setAttribute("data-theme", dark ? "dark" : "light");
+      })();
+    </script>
   </head>
-  <body class="bg-background text-on-surface font-body-md overflow-x-hidden">
+  <body class="min-h-dvh overflow-x-hidden">
+    <Fragment set:html={`<!--
+THESIS: The portfolio is a desktop session on "lhexus.os": every section is a window, the dock is the nav, and the window you are reading takes focus (cobalt title bar). Refuses the stacked hero + card-grid template.
+OWN-WORLD: Blue-gray dotted desktop (dark: ink-navy), white/navy windows with 1.5px ink borders, 10px corners and hard 5px offset shadows; cobalt #2F4BFF focus, signal yellow #FFD23F selection; Hanken Grotesk 800 caps display, JetBrains Mono for filenames, data and dates; Material Symbols icons.
+STORY: Visitor meets Lhexus by name and face, reads the objective, opens work samples, checks skills with proof, verifies certificates, then contacts.
+FIRST VIEWPORT: Menu bar with Manila clock; giant two-line caps name left, photo window right, course status line, role with caret, contact chips; dock fixed at bottom.
+FORM: Pinned by brief (retro desktop OS), seed: brief-pinned (no roll).
+FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+-->`} />
     <slot />
+    <script>
+      document.documentElement.classList.add("js-ready");
+
+      // Windows "open" as they scroll into view.
+      const reveal = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-open");
+              reveal.unobserve(e.target);
+            }
+          }
+        },
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+      );
+      document.querySelectorAll<HTMLElement>(".win[data-reveal]").forEach((w) => reveal.observe(w));
+    </script>
   </body>
 </html>

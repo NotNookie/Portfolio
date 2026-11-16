@@ -1,120 +1,101 @@
 ---
-import { profile, coreStack } from "../data/site";
+import Window from "./Window.astro";
+import { profile, socialLinks } from "../data/site";
 ---
 
-<section
-  class="relative min-h-[90vh] flex items-center dot-grid border-b border-outline-variant"
-  id="hero"
->
-  <div
-    class="max-w-7xl mx-auto px-container-padding w-full grid grid-cols-1 lg:grid-cols-2 gap-16 py-20 items-center"
-  >
-    <div class="space-y-8">
-      <div class="space-y-4">
-        <h1 class="font-headline-xl text-headline-xl text-on-surface">
-          Hi, I'm <br />
-          <span class="text-primary">{profile.name}</span>
-        </h1>
-        <p
-          class="flex items-center gap-2 font-code-label text-code-label text-on-surface-variant"
-        >
-          <span class="text-primary" aria-hidden="true">&gt;</span> {profile.role}<span
-            class="animate-pulse"
-            aria-hidden="true">|</span
-          >
-        </p>
-      </div>
-      <p class="text-body-md text-on-surface-variant max-w-xl">
-        {profile.tagline}
+<section id="hero" class="relative mx-auto max-w-6xl px-4 pt-20 pb-12 sm:px-6 sm:pt-24 lg:pb-10">
+  <div class="grid items-center gap-10 lg:grid-cols-12 lg:gap-8">
+    <div class="lg:col-span-7">
+      <p
+        class="inline-flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border-[1.5px] border-line bg-win px-3 py-1.5 font-mono text-[12px] text-ink sm:text-[13px]"
+      >
+        <span class="material-symbols-outlined !text-[16px] text-accent-ink" aria-hidden="true">school</span>
+        <span>{profile.course}</span>
+        <span class="text-ink-2" aria-hidden="true">·</span>
+        <span>{profile.school}</span>
+        <span class="text-ink-2" aria-hidden="true">·</span>
+        <span>{profile.year}</span>
       </p>
 
-      <div class="space-y-4 pt-4 border-t border-outline-variant border-dashed">
-        <div
-          class="font-code-label text-[10px] uppercase text-on-surface-variant flex items-center gap-2"
-        >
-          <span class="material-symbols-outlined text-sm" aria-hidden="true"
-            >terminal</span
-          > CORE STACK
-        </div>
-        <ul class="flex flex-wrap gap-2">
-          {
-            coreStack.map((tech) => (
-              <li class="bg-surface-container-low px-2 py-1 border border-outline-variant text-[11px] font-code-label">
-                {tech}
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+      <h1
+        class="mt-6 text-[clamp(2.6rem,7.6vw,5.5rem)] leading-[0.92] font-extrabold tracking-[-0.035em] text-balance uppercase"
+      >
+        <span class="block">{profile.firstName}</span>
+        <span class="block"><span class="text-accent">M.</span> {profile.lastName}</span>
+      </h1>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="p-4 border border-outline-variant bg-surface-container-low space-y-1">
-          <div
-            class="flex items-center gap-2 font-code-label text-[10px] uppercase text-on-surface-variant"
-          >
-            <span class="material-symbols-outlined text-sm" aria-hidden="true"
-              >location_on</span
-            > LOCATION
-          </div>
-          <div class="font-body-md font-medium">{profile.location}</div>
-        </div>
-        <div class="p-4 border border-outline-variant bg-surface-container-low space-y-1">
-          <div
-            class="flex items-center gap-2 font-code-label text-[10px] uppercase text-on-surface-variant"
-          >
-            <span class="material-symbols-outlined text-sm" aria-hidden="true">mail</span> EMAIL
-          </div>
-          <div class="font-body-md font-medium">{profile.email}</div>
-        </div>
-      </div>
+      <p class="mt-5 font-mono text-lg font-medium sm:text-xl">
+        <span class="text-accent-ink" aria-hidden="true">&gt;&nbsp;</span>{profile.role}<span class="caret" aria-hidden="true"></span>
+      </p>
 
-      <div class="flex flex-wrap gap-4 pt-4">
-        <a
-          href="#projects"
-          class="bg-primary text-on-primary px-8 py-4 font-bold flex items-center gap-2 hover:translate-x-1 transition-transform"
-        >
-          View work <span class="material-symbols-outlined" aria-hidden="true">south</span>
+      <p class="mt-4 max-w-[60ch] text-ink-2 sm:text-[17px]">{profile.tagline}</p>
+
+      <ul class="mt-6 flex flex-wrap gap-2" aria-label="Contact details">
+        {
+          socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                class="chip lift !border-line !bg-win hover:!bg-accent-wash"
+              >
+                <span class="material-symbols-outlined !text-[16px]" aria-hidden="true">{link.icon}</span>
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+        <li class="chip !border-transparent !bg-transparent !px-1 text-ink-2">
+          <span class="material-symbols-outlined !text-[16px]" aria-hidden="true">location_on</span>
+          {profile.location}
+        </li>
+      </ul>
+
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#projects" class="btn btn-primary">
+          <span class="material-symbols-outlined !text-[18px]" aria-hidden="true">folder_open</span>
+          Open my work
         </a>
-        <a
-          href="#contact"
-          class="border border-primary text-primary px-8 py-4 font-bold flex items-center gap-2 hover:bg-surface-container transition-colors"
-        >
-          <span class="material-symbols-outlined" aria-hidden="true">auto_awesome</span> Let's talk
+        <a href={profile.resume} target="_blank" rel="noopener noreferrer" class="btn btn-ghost">
+          <span class="material-symbols-outlined !text-[18px]" aria-hidden="true">picture_as_pdf</span>
+          Resume / CV
         </a>
       </div>
     </div>
 
-    <div class="relative">
-      <div
-        class="bg-surface border border-outline-variant rounded-lg overflow-hidden window-shadow"
+    <div class="relative mx-auto w-full max-w-[22rem] sm:max-w-sm lg:col-span-5 lg:max-w-none lg:pl-6">
+      <Window title="lhexus_sosong.jpg" icon="image" meta="900×1200" section="hero" reveal={false}>
+        <img
+          src={profile.photo}
+          alt={`Portrait of ${profile.name} in a dark suit and tie, smiling`}
+          width="900"
+          height="1200"
+          fetchpriority="high"
+          decoding="async"
+          class="block aspect-[4/4.6] w-full bg-[#f2f2f0] object-cover object-[50%_12%]"
+        />
+      </Window>
+
+      <aside
+        class="absolute -bottom-6 -left-3 w-48 -rotate-3 rounded-sm border-[1.5px] border-line bg-hi p-3 text-on-hi shadow-[3px_3px_0_0_var(--shadow)] sm:-left-8 sm:w-52"
+        aria-label="Currently"
       >
-        <div
-          class="bg-surface-container-high px-4 py-2 flex items-center gap-2 border-b border-outline-variant"
-        >
-          <div class="flex gap-1.5" aria-hidden="true">
-            <div class="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
-            <div class="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
-            <div class="w-3 h-3 rounded-full bg-[#27C93F]"></div>
-          </div>
-          <div class="text-[12px] font-code-label text-on-surface-variant ml-4">
-            ~/about.js
-          </div>
-        </div>
-        <div class="p-6 font-code-label text-code-label leading-relaxed">
-          <pre class="whitespace-pre-wrap"><code><span class="text-[#D33682]">const</span> dev <span class="text-on-surface-variant">=</span> {"{"}
-  name: <span class="text-[#2AA198]">"{profile.name}"</span>,
-  role: <span class="text-[#2AA198]">"{profile.role}"</span>,
-  location: <span class="text-[#2AA198]">"{profile.location}"</span>,
-  stack: [<span class="text-[#2AA198]">"React"</span>, <span class="text-[#2AA198]">"Node"</span>, <span class="text-[#2AA198]">"Laravel"</span>],
-  focus: <span class="text-[#2AA198]">"End-to-End Products"</span>
-{"}"};</code></pre>
-        </div>
-      </div>
-      <div
-        class="absolute -z-10 -bottom-10 -right-10 w-64 h-64 border border-outline-variant border-dashed"
-        aria-hidden="true"
-      >
-      </div>
+        <p class="font-mono text-[11px] font-bold tracking-[0.08em] uppercase">Currently</p>
+        <p class="mt-1 text-[14px] leading-snug font-semibold">
+          Building Iskolar, a multi-tenant scholarship platform, as my capstone.
+        </p>
+      </aside>
     </div>
   </div>
+
+  <a
+    href="#about"
+    class="mt-14 hidden items-center gap-2 font-mono text-[12px] text-ink-2 hover:text-ink lg:inline-flex"
+  >
+    <span class="material-symbols-outlined !text-[18px]" aria-hidden="true"
+      >arrow_downward</span
+    >
+    Scroll down
+  </a>
 </section>

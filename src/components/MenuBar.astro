@@ -1,0 +1,43 @@
+---
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-40 h-10 border-b-[1.5px] border-line bg-win/95 text-ink"
+>
+  <div class="mx-auto flex h-full max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+    <a href="#hero" class="flex items-center gap-2 font-mono text-[13px] font-bold tracking-tight">
+      <span
+        class="grid size-5 place-items-center rounded-[5px] bg-accent text-[10px] font-extrabold text-on-accent"
+        aria-hidden="true">L</span
+      >
+      lhexus.os
+      <span class="sr-only">, back to top</span>
+    </a>
+    <div class="flex items-center gap-4 font-mono text-[12px] text-ink-2">
+      <span class="hidden items-center gap-1 sm:flex">
+        <span class="material-symbols-outlined !text-[15px]" aria-hidden="true">location_on</span>
+        Sta. Cruz, Laguna
+      </span>
+      <span class="tabular text-ink" aria-label="Local time in the Philippines">
+        <time id="clock" data-tz="Asia/Manila">--:--</time> PHT
+      </span>
+    </div>
+  </div>
+</header>
+
+<script>
+  const el = document.getElementById("clock");
+  if (el) {
+    const fmt = new Intl.DateTimeFormat("en-PH", {
+      timeZone: "Asia/Manila",
+      weekday: "short",
+      hour: "numeric",
+      minute: "2-digit",
+    });
+    const tick = () => {
+      el.textContent = fmt.format(new Date());
+    };
+    tick();
+    setInterval(tick, 15000);
+  }
+</script>

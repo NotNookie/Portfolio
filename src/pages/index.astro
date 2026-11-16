@@ -1,9 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Header from "../components/Header.astro";
+import MenuBar from "../components/MenuBar.astro";
+import Dock from "../components/Dock.astro";
 import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
 import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
 import Background from "../components/Background.astro";
+import Certificates from "../components/Certificates.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 ---
@@ -12,12 +16,16 @@ import Footer from "../components/Footer.astro";
   title="Lhexus Paul M. Sosong | Full-Stack Developer"
   description="Portfolio of Lhexus Paul M. Sosong, a 4th-year BSIT student and Full-Stack Developer building React, Node.js, and Laravel web products."
 >
-  <Header />
-  <main class="pt-16">
+  <MenuBar />
+  <main>
     <Hero />
+    <About />
     <Projects />
+    <Skills />
     <Background />
+    <Certificates />
     <Contact />
   </main>
   <Footer />
+  <Dock />
 </Layout>

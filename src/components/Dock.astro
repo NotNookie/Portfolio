@@ -1,0 +1,121 @@
+---
+import { profile } from "../data/site";
+
+const items = [
+  { href: "#hero", label: "Home", icon: "home" },
+  { href: "#about", label: "About", icon: "person" },
+  { href: "#projects", label: "Projects", icon: "folder_open" },
+  { href: "#skills", label: "Skills", icon: "construction" },
+  { href: "#background", label: "Background", icon: "history_edu" },
+  { href: "#certificates", label: "Certificates", icon: "workspace_premium" },
+  { href: "#contact", label: "Contact", icon: "alternate_email" },
+];
+
+const itemClass =
+  "dock-item group flex min-w-[3.75rem] shrink-0 flex-col items-center gap-0.5 rounded-lg px-2 py-1.5 text-ink transition-colors duration-200 hover:bg-win-3 sm:min-w-[4.5rem]";
+---
+
+<nav
+  aria-label="Primary"
+  class="fixed inset-x-0 bottom-3 z-50 flex justify-center px-2 sm:bottom-4"
+>
+  <div
+    class="win max-w-full !rounded-2xl !shadow-[4px_4px_0_0_var(--shadow)]"
+  >
+    <ul class="flex items-stretch gap-0.5 overflow-x-auto p-1.5 [scrollbar-width:none]">
+      {
+        items.map((item) => (
+          <li class="flex">
+            <a href={item.href} class={itemClass} data-dock={item.href.slice(1)}>
+              <span class="material-symbols-outlined !text-[22px]" aria-hidden="true">
+                {item.icon}
+              </span>
+              <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">{item.label}</span>
+            </a>
+          </li>
+        ))
+      }
+      <li class="mx-1 w-px shrink-0 self-stretch bg-line-soft" aria-hidden="true"></li>
+      <li class="flex">
+        <a href={profile.resume} target="_blank" rel="noopener noreferrer" class={itemClass}>
+          <span class="material-symbols-outlined !text-[22px]" aria-hidden="true">picture_as_pdf</span>
+          <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">Resume</span>
+          <span class="sr-only">(PDF, opens in a new tab)</span>
+        </a>
+      </li>
+      <li class="flex">
+        <button type="button" id="theme-toggle" class={itemClass} aria-pressed="false">
+          <span class="flex dark:hidden" aria-hidden="true">
+            <span class="material-symbols-outlined !text-[22px]">dark_mode</span>
+          </span>
+          <span class="hidden dark:flex" aria-hidden="true">
+            <span class="material-symbols-outlined !text-[22px]">light_mode</span>
+          </span>
+          <span class="font-mono text-[10px] leading-tight font-medium sm:text-[11px]">
+            <span class="dark:hidden">Dark</span><span class="hidden dark:inline">Light</span>
+          </span>
+          <span class="sr-only">mode</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .dock-item[aria-current="true"] {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .dock-item:hover .material-symbols-outlined {
+      transform: translateY(-2px);
+    }
+    .dock-item .material-symbols-outlined {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+</style>
+
+<script>
+  // ---- theme toggle ----
+  const root = document.documentElement;
+  const toggle = document.getElementById("theme-toggle");
+  const sync = () => toggle?.setAttribute("aria-pressed", String(root.dataset.theme === "dark"));
+  sync();
+  toggle?.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    sync();
+  });
+
+  // ---- active section: dock highlight + focused window ----
+  const links = new Map<string, HTMLAnchorElement>();
+  document.querySelectorAll<HTMLAnchorElement>("[data-dock]").forEach((a) => links.set(a.dataset.dock!, a));
+
+  const setActive = (id: string) => {
+    links.forEach((a, key) => {
+      if (key === id) {
+        a.setAttribute("aria-current", "true");
+        // Keep the active item visible when the dock scrolls on narrow screens.
+        const strip = a.closest("ul");
+        if (strip && strip.scrollWidth > strip.clientWidth) {
+          strip.scrollTo({ left: a.offsetLeft - strip.clientWidth / 2 + a.offsetWidth / 2, behavior: "smooth" });
+        }
+      } else a.removeAttribute("aria-current");
+    });
+    document.querySelectorAll<HTMLElement>(".win[data-window]").forEach((w) => {
+      w.dataset.active = String(w.dataset.window === id);
+    });
+  };
+
+  const spy = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
+  document.querySelectorAll<HTMLElement>("main section[id]").forEach((s) => spy.observe(s));
+</script>
