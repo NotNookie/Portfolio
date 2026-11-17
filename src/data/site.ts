@@ -27,10 +27,18 @@ export const careerObjective = [
   "I've been programming since Senior High School, and I'm currently leading the full-stack infrastructure of Iskolar, a multi-tenant scholarship management platform, as my capstone project.",
 ];
 
+export interface Skill {
+  name: string;
+  /** Simple Icons slug (brand logo), e.g. "react". */
+  logo?: string;
+  /** Material Symbols fallback when no brand logo exists. */
+  icon?: string;
+}
+
 export interface SkillGroup {
   label: string;
   icon: string;
-  items: string[];
+  items: Skill[];
 }
 
 /** Technical skills, grouped as in the CV. */
@@ -38,58 +46,68 @@ export const technicalSkills: SkillGroup[] = [
   {
     label: "Languages",
     icon: "code",
-    items: ["JavaScript", "PHP", "SQL", "Java", "Dart", "Python", "C#", "HTML", "CSS"],
+    items: [
+      { name: "JavaScript", logo: "javascript" },
+      { name: "PHP", logo: "php" },
+      { name: "SQL", icon: "database" },
+      { name: "Java", logo: "openjdk" },
+      { name: "Dart", logo: "dart" },
+      { name: "Python", logo: "python" },
+      { name: "C#", icon: "tag" },
+      { name: "HTML", logo: "html5" },
+      { name: "CSS", logo: "css" },
+    ],
   },
   {
     label: "Frontend",
     icon: "web",
     items: [
-      "React",
-      "Flutter",
-      "Vite",
-      "Tailwind CSS",
-      "Bootstrap",
-      "React Router",
-      "TanStack Query/Table",
-      "Zustand",
-      "React Hook Form",
-      "Zod",
-      "Framer Motion",
+      { name: "React", logo: "react" },
+      { name: "Flutter", logo: "flutter" },
+      { name: "Vite", logo: "vite" },
+      { name: "Tailwind CSS", logo: "tailwindcss" },
+      { name: "Bootstrap", logo: "bootstrap" },
+      { name: "React Router", logo: "reactrouter" },
+      { name: "TanStack Query/Table", icon: "table_chart" },
+      { name: "Zustand", icon: "deployed_code" },
+      { name: "React Hook Form", logo: "reacthookform" },
+      { name: "Zod", logo: "zod" },
+      { name: "Framer Motion", logo: "framer" },
     ],
   },
   {
     label: "Backend & Data",
     icon: "database",
     items: [
-      "Node.js",
-      "Laravel (Sanctum)",
-      "REST APIs",
-      "PostgreSQL (Supabase)",
-      "Role-Based Access Control",
-      "Multi-tenant architecture",
+      { name: "Node.js", logo: "nodedotjs" },
+      { name: "Laravel (Sanctum)", logo: "laravel" },
+      { name: "REST APIs", icon: "api" },
+      { name: "PostgreSQL (Supabase)", logo: "postgresql" },
+      { name: "Role-Based Access Control", icon: "admin_panel_settings" },
+      { name: "Multi-tenant architecture", icon: "domain" },
     ],
   },
   {
     label: "Platforms & Tools",
     icon: "build",
     items: [
-      "Cloudflare Pages/Workers",
-      "Vercel",
-      "Sentry",
-      "Git",
-      "GitHub",
-      "Android Studio",
-      "Godot Engine",
-      "Visual Studio",
-      "VS Code",
-      "Claude",
-      "Codex",
+      { name: "Cloudflare Pages/Workers", logo: "cloudflare" },
+      { name: "Vercel", logo: "vercel" },
+      { name: "Sentry", logo: "sentry" },
+      { name: "Git", logo: "git" },
+      { name: "GitHub", logo: "github" },
+      { name: "Android Studio", logo: "androidstudio" },
+      { name: "Godot Engine", logo: "godotengine" },
+      { name: "Visual Studio", icon: "integration_instructions" },
+      { name: "VS Code", icon: "code_blocks" },
+      { name: "Claude", logo: "claude" },
+      { name: "Codex", logo: "openai" },
     ],
   },
   {
     label: "Enterprise",
     icon: "corporate_fare",
-    items: ["SAP S/4HANA (SD, MM, PP, FI, CO modules)"],
+    items: [{ name: "SAP S/4HANA (SD, MM, PP, FI, CO modules)", logo: "sap" }],
   },
 ];
 

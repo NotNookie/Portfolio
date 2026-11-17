@@ -226,7 +226,12 @@ $$<HTMLElement>("[data-tabs]").forEach((list) => {
       t.setAttribute("aria-selected", String(on));
       t.tabIndex = on ? 0 : -1;
       const panel = document.getElementById(t.getAttribute("aria-controls")!);
-      if (panel) panel.hidden = !on;
+      if (!panel) return;
+      if (panel.parentElement?.classList.contains("stack")) {
+        // Stacked panels keep their space so the window doesn't resize.
+        panel.toggleAttribute("data-off", !on);
+        panel.inert = !on;
+      } else panel.hidden = !on;
     });
     if (focus) tab.focus();
   };
@@ -239,8 +244,8 @@ $$<HTMLElement>("[data-tabs]").forEach((list) => {
     const i = tabs.indexOf(document.activeElement as HTMLButtonElement);
     if (i < 0) return;
     const next =
-      e.key === "ArrowRight" ? tabs[(i + 1) % tabs.length]
-      : e.key === "ArrowLeft" ? tabs[(i - 1 + tabs.length) % tabs.length]
+      e.key === "ArrowRight" || e.key === "ArrowDown" ? tabs[(i + 1) % tabs.length]
+      : e.key === "ArrowLeft" || e.key === "ArrowUp" ? tabs[(i - 1 + tabs.length) % tabs.length]
       : e.key === "Home" ? tabs[0]
       : e.key === "End" ? tabs[tabs.length - 1]
       : null;

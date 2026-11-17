@@ -324,6 +324,17 @@ section[id] {
 [data-tabpanel][hidden] {
   display: none;
 }
+/* Stacked panels share one grid cell, so switching never changes the size. */
+.js-ready .stack {
+  display: grid;
+}
+.js-ready .stack > [data-tabpanel] {
+  grid-area: 1 / 1;
+  min-width: 0;
+}
+.stack > [data-off] {
+  visibility: hidden;
+}
 
 /* closed-window placeholder */
 .win-reopen {

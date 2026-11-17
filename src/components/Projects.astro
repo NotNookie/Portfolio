@@ -172,9 +172,17 @@ const total = projects.length;
     }
   }
 
-  /* With JS, only the current slide shows. */
+  /* With JS, all slides share one grid cell so the carousel keeps the
+     height of the tallest project; only the current one is visible. */
+  :global(.js-ready) [data-carousel-stage] {
+    display: grid;
+  }
+  :global(.js-ready) [data-carousel] .slide {
+    grid-area: 1 / 1;
+    min-width: 0;
+  }
   :global(.js-ready) [data-carousel] .slide:not(.is-current) {
-    display: none;
+    visibility: hidden;
   }
   :global(.js-ready) [data-carousel] .slide {
     touch-action: pan-y;

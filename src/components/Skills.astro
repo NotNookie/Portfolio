@@ -1,9 +1,26 @@
 ---
+import * as simpleIcons from "simple-icons";
 import Window from "./Window.astro";
 import Tabs from "./Tabs.astro";
-import { technicalSkills, softSkills } from "../data/site";
+import { technicalSkills, softSkills, type Skill } from "../data/site";
 
 const techCount = technicalSkills.reduce((n, g) => n + g.items.length, 0);
+const slug = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+type SimpleIcon = { title: string; hex: string; path: string };
+const brand = (s: Skill): SimpleIcon | undefined => {
+  if (!s.logo) return undefined;
+  const key = `si${s.logo[0].toUpperCase()}${s.logo.slice(1)}`;
+  return (simpleIcons as unknown as Record<string, SimpleIcon>)[key];
+};
+
+// Pick a dark or white glyph so the logo stays legible on its brand colour.
+const glyphOn = (hex: string) => {
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+  const L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
+  return L > 0.4 ? "#11131a" : "#ffffff";
+};
 ---
 
 <section id="skills" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
@@ -17,66 +34,195 @@ const techCount = technicalSkills.reduce((n, g) => n + g.items.length, 0);
     <Tabs
       slot="toolbar"
       group="skills"
-      label="Skill categories"
+      label="Skill types"
       tabs={[
-        { id: "technical", label: "Technical", count: techCount },
+        { id: "technical", label: "Tech skills", count: techCount },
         { id: "soft", label: "Soft skills", count: softSkills.length },
       ]}
     />
 
-    <div
-      id="panel-skills-technical"
-      role="tabpanel"
-      aria-labelledby="tab-skills-technical"
-      data-tabpanel="skills-technical"
-      class="p-4 sm:p-8"
-    >
-      <dl class="divide-y divide-line-soft">
-        {
-          technicalSkills.map((group) => (
-            <div class="grid gap-2 py-4 first:pt-0 last:pb-0 sm:grid-cols-[11rem_1fr] sm:gap-4">
-              <dt class="flex items-center gap-1.5 self-start font-mono text-[13px] font-medium sm:pt-1">
-                <span class="material-symbols-outlined !text-[17px] text-ink-2" aria-hidden="true">{group.icon}</span>
-                {group.label}
-              </dt>
-              <dd>
-                <ul class="flex flex-wrap gap-1.5">
-                  {group.items.map((item) => (
-                    <li class="chip">{item}</li>
-                  ))}
-                </ul>
-              </dd>
-            </div>
-          ))
-        }
-      </dl>
-    </div>
-
-    <div
-      id="panel-skills-soft"
-      role="tabpanel"
-      aria-labelledby="tab-skills-soft"
-      data-tabpanel="skills-soft"
-      class="p-4 sm:p-8"
-    >
-      <ul class="grid gap-3 md:grid-cols-2">
-        {
-          softSkills.map((s) => (
-            <li class="flex gap-3 rounded-lg border border-line-soft bg-win-2 p-4">
-              <span
-                class="grid size-10 shrink-0 place-items-center rounded-md bg-accent-wash text-accent-ink"
-                aria-hidden="true"
+    <div class="stack">
+      <!-- Tech skills: category sidebar + skill tiles -->
+      <div
+        id="panel-skills-technical"
+        role="tabpanel"
+        aria-labelledby="tab-skills-technical"
+        data-tabpanel="skills-technical"
+        class="grid content-start md:grid-cols-[14rem_1fr] md:content-stretch"
+      >
+        <div
+          class="cat-list flex gap-1.5 overflow-x-auto border-b-[1.5px] border-line bg-win-2 p-3 md:flex-col md:overflow-visible md:border-r-[1.5px] md:border-b-0 md:p-4"
+          role="tablist"
+          aria-label="Skill categories"
+          aria-orientation="vertical"
+          data-tabs="skillcat"
+        >
+          {
+            technicalSkills.map((g, i) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-skillcat-${slug(g.label)}`}
+                aria-controls={`panel-skillcat-${slug(g.label)}`}
+                aria-selected={i === 0 ? "true" : "false"}
+                tabindex={i === 0 ? 0 : -1}
+                class="cat-tab"
               >
-                <span class="material-symbols-outlined !text-[21px]">{s.icon}</span>
-              </span>
-              <div>
-                <p class="font-bold leading-snug">{s.skill}</p>
-                <p class="mt-0.5 text-[14.5px] leading-relaxed text-ink-2">{s.proof}</p>
+                <span class="material-symbols-outlined !text-[19px]" aria-hidden="true">{g.icon}</span>
+                <span class="flex-1 text-left">{g.label}</span>
+                <span class="cat-count tabular">{g.items.length}</span>
+              </button>
+            ))
+          }
+        </div>
+
+        <div class="stack p-4 sm:p-6">
+          {
+            technicalSkills.map((g) => (
+              <div
+                id={`panel-skillcat-${slug(g.label)}`}
+                role="tabpanel"
+                aria-labelledby={`tab-skillcat-${slug(g.label)}`}
+                data-tabpanel={`skillcat-${slug(g.label)}`}
+              >
+                <h3 class="flex items-baseline gap-2 text-xl font-extrabold tracking-[-0.01em]">
+                  {g.label}
+                  <span class="tabular font-mono text-[12px] font-medium text-ink-2">{g.items.length} skills</span>
+                </h3>
+                <ul class="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
+                  {g.items.map((s) => {
+                    const icon = brand(s);
+                    return (
+                      <li class="skill-tile">
+                        {icon ? (
+                          <span class="skill-logo" style={`background:#${icon.hex}`}>
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill={glyphOn(icon.hex)}>
+                              <path d={icon.path} />
+                            </svg>
+                          </span>
+                        ) : (
+                          <span class="skill-logo skill-logo-generic">
+                            <span class="material-symbols-outlined !text-[22px]" aria-hidden="true">
+                              {s.icon ?? "code"}
+                            </span>
+                          </span>
+                        )}
+                        <span class="text-[14px] leading-snug font-semibold">{s.name}</span>
+                      </li>
+                    );
+                  })}
+                </ul>
               </div>
-            </li>
-          ))
-        }
-      </ul>
+            ))
+          }
+        </div>
+      </div>
+
+      <!-- Soft skills: cards -->
+      <div
+        id="panel-skills-soft"
+        role="tabpanel"
+        aria-labelledby="tab-skills-soft"
+        data-tabpanel="skills-soft"
+        class="p-4 sm:p-6"
+      >
+        <ul class="grid gap-3 md:grid-cols-2">
+          {
+            softSkills.map((s) => (
+              <li class="flex gap-3 rounded-lg border border-line-soft bg-win-2 p-4">
+                <span
+                  class="grid size-10 shrink-0 place-items-center rounded-md bg-accent-wash text-accent-ink"
+                  aria-hidden="true"
+                >
+                  <span class="material-symbols-outlined !text-[21px]">{s.icon}</span>
+                </span>
+                <div>
+                  <p class="font-bold leading-snug">{s.skill}</p>
+                  <p class="mt-0.5 text-[14.5px] leading-relaxed text-ink-2">{s.proof}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </Window>
 </section>
+
+<style>
+  .cat-list {
+    scrollbar-width: none;
+  }
+  .cat-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-shrink: 0;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid transparent;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-2);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  }
+  .cat-tab:hover {
+    background: var(--win);
+    color: var(--ink);
+  }
+  .cat-tab[aria-selected="true"] {
+    border-color: var(--line);
+    background: var(--app);
+    color: var(--on-app);
+    box-shadow: 3px 3px 0 0 var(--shadow);
+  }
+  .cat-count {
+    min-width: 1.4rem;
+    padding: 0 0.35rem;
+    border-radius: 999px;
+    background: var(--win-3);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-align: center;
+  }
+  .cat-tab[aria-selected="true"] .cat-count {
+    background: var(--win);
+  }
+
+  .skill-tile {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.65rem;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--win);
+    box-shadow: 3px 3px 0 0 var(--shadow);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .skill-tile:hover {
+      transform: translate(-2px, -2px);
+    }
+  }
+  .skill-logo {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1.5px solid var(--line);
+    border-radius: 8px;
+  }
+  .skill-logo svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+  .skill-logo-generic {
+    background: var(--win-3);
+    color: var(--ink);
+  }
+</style>
