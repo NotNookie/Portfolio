@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   lhexus.os — retro desktop system
+   Lhexus Sosong — retro desktop system
    Cobalt is the "focused window" colour; signal yellow is selection.
    ------------------------------------------------------------------ */
 
@@ -321,7 +321,8 @@ section[id] {
 .win.is-max {
   position: fixed;
   inset: 0.75rem 0.75rem 6.75rem;
-  z-index: 45;
+  /* above the top bar (z-40) and any focused window; below the dock (z-50) */
+  z-index: 45 !important;
   display: flex;
   flex-direction: column;
   translate: none !important;

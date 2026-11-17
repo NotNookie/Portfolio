@@ -1,5 +1,5 @@
 /**
- * lhexus.os — window manager for the portfolio.
+ * Lhexus Sosong — window manager for the portfolio.
  * Windows stay in normal page flow (the page still scrolls); this adds
  * minimize / maximize / close / drag / focus, tabs, dock integration and
  * the boot screen. Everything degrades to a readable page without JS.

@@ -477,6 +477,161 @@ export const certificates: Certificate[] = [
   },
 ];
 
+/* ---------------- Background & Achievements ---------------- */
+
+export interface Highlight {
+  title: string;
+  detail: string;
+  icon: "medal" | "term" | "chip" | "person";
+  /** Optional chips shown under the detail (e.g. yearly placements). */
+  chips?: string[];
+}
+
+export const highlights: Highlight[] = [
+  {
+    title: "Top 2 at CodeFest, four years running",
+    detail:
+      "Placed at STI College Sta. Cruz's Android hackathon every year: 6–8 hour builds using only Android Studio and the docs. No internet, no AI.",
+    icon: "medal",
+    chips: ["1st Year · 1st Runner-up", "2nd Year · 2nd Runner-up", "3rd Year · 1st Runner-up", "4th Year · 1st Runner-up"],
+  },
+  {
+    title: "ITSO 2026 contestant",
+    detail:
+      "Represented STI College Sta. Cruz in the Java Programming Contest at the 15th IT Skills Olympics, University of Makati.",
+    icon: "term",
+  },
+  {
+    title: "SAP S/4HANA trained",
+    detail:
+      "Two SAP University Alliances courses covering SD, MM, PP, FI and CO, plus the SAP × Accenture student career talk.",
+    icon: "chip",
+  },
+  {
+    title: "Mentor & club designer",
+    detail:
+      "Peer tutor for Java Fundamentals (6 one-on-one sessions, 2 hrs each) and graphic designer for the Python Club for a year.",
+    icon: "person",
+  },
+];
+
+export type MilestoneKind = "competition" | "training" | "seminar" | "education" | "leadership";
+
+export interface Milestone {
+  /** Sortable date (YYYY-MM-DD); also decides the year group. */
+  date: string;
+  /** Human-readable date or range. */
+  when: string;
+  kind: MilestoneKind;
+  title: string;
+  org: string;
+  detail?: string;
+  /** fileUrl of the matching entry in `certificates`. */
+  cert?: string;
+}
+
+export const milestones: Milestone[] = [
+  {
+    date: "2026-11-04",
+    when: "Nov 4, 2026",
+    kind: "competition",
+    title: "15th IT Skills Olympics: Java Programming Contest",
+    org: "University of Makati",
+    detail: "Contestant, representing STI College Sta. Cruz.",
+    cert: `${certDir}/itso-java-contest-id.jpg`,
+  },
+  {
+    date: "2026-10-21",
+    when: "Oct 21, 2026",
+    kind: "seminar",
+    title: "Hacking a Car: One Target, Every Discipline of Security",
+    org: "STI College Sta. Cruz",
+    detail: "Cybersecurity seminar. Certificate of Participation.",
+    cert: `${certDir}/hacking-a-car.jpg`,
+  },
+  {
+    date: "2026-09-25",
+    when: "Sept 25, 2026",
+    kind: "competition",
+    title: "CodeFest: 1st Runner-up (4th Year)",
+    org: "STI College Sta. Cruz, Tagisan ng Talino 2026-2027",
+    cert: `${certDir}/codefest-2026.jpg`,
+  },
+  {
+    date: "2026-03-13",
+    when: "Mar 13, 2026",
+    kind: "competition",
+    title: "CodeFest: 1st Runner-up (3rd Year)",
+    org: "STI College Sta. Cruz, Tagisan ng Talino 2025-2026",
+    cert: `${certDir}/codefest-2025.jpg`,
+  },
+  {
+    date: "2025-12-12",
+    when: "Jul 28 – Dec 12, 2025",
+    kind: "training",
+    title: "Intro to SAP S/4HANA using Global Bike - Part II",
+    org: "SAP University Alliances via STI College",
+    cert: `${certDir}/sap-s4hana-global-bike-part-2.pdf`,
+  },
+  {
+    date: "2025-09-26",
+    when: "Sept 26, 2025",
+    kind: "seminar",
+    title: "SAP x Accenture Student Career Talk Webinar",
+    org: "SAP Philippines",
+    cert: `${certDir}/sap-accenture-career-talk.pdf`,
+  },
+  {
+    date: "2025-06-07",
+    when: "Jan 20 – Jun 7, 2025",
+    kind: "training",
+    title: "SAP S/4HANA using Global Bike (SD, MM, PP, FI, CO)",
+    org: "SAP University Alliances via STI College",
+    cert: `${certDir}/sap-s4hana-global-bike.pdf`,
+  },
+  {
+    date: "2025-05-01",
+    when: "A.Y. 2024–2025",
+    kind: "leadership",
+    title: "Service Award: Graphic Designer",
+    org: "Python Club, STI College Sta. Cruz",
+    detail: "Designed graphics for the college programming club for one year.",
+    cert: `${certDir}/python-club-graphic-designer.jpg`,
+  },
+  {
+    date: "2025-03-07",
+    when: "Mar 7, 2025",
+    kind: "competition",
+    title: "CodeFest: 2nd Runner-up (2nd Year)",
+    org: "STI College Sta. Cruz, Tagisan ng Talino 2024-2025",
+    cert: `${certDir}/codefest-2024.jpg`,
+  },
+  {
+    date: "2024-03-22",
+    when: "Mar 22, 2024",
+    kind: "competition",
+    title: "CodeFest: 1st Runner-up (1st Year)",
+    org: "STI College Sta. Cruz, Tagisan ng Talino 2023-2024",
+    cert: `${certDir}/codefest-2023.jpg`,
+  },
+  {
+    date: "2023-08-01",
+    when: "Aug 2023 – Present",
+    kind: "education",
+    title: "BS in Information Technology",
+    org: "STI College - Sta. Cruz Branch",
+    detail: "Currently 4th year, 1st semester (capstone). Expected graduation: June-July 2027.",
+  },
+  {
+    date: "2023-07-01",
+    when: "Graduated July 2023",
+    kind: "education",
+    title: "Senior High School: IT in Mobile App and Web Development",
+    org: "STI College - Sta. Cruz Branch",
+    detail: "Where I started programming.",
+  },
+];
+
 export interface SocialLink {
   label: string;
   href: string;
