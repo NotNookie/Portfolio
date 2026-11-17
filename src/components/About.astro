@@ -1,45 +1,51 @@
 ---
 import Window from "./Window.astro";
-import { profile, careerObjective } from "../data/site";
-
-const info = [
-  { k: "Name", v: profile.name },
-  { k: "Course", v: profile.course },
-  { k: "School", v: profile.school },
-  { k: "Year", v: "4th Year (capstone)" },
-  { k: "Graduating", v: "June–July 2027" },
-  { k: "Based in", v: profile.location },
-  { k: "Looking for", v: "OJT / internship (full-stack or web dev)" },
-];
+import { careerObjective } from "../data/site";
 ---
 
 <section id="about" class="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
-  <Window title="Career Objective" file="objective.txt" icon="doc" section="about" status="UTF-8 · read-only">
-    <div class="grid gap-8 p-5 sm:p-8 lg:grid-cols-12 lg:gap-10">
-      <div class="lg:col-span-7">
-        <div class="space-y-4 text-lg leading-relaxed sm:text-xl">
-          {careerObjective.map((p, i) => <p class={i > 0 ? "text-ink-2" : ""}>{p}</p>)}
-        </div>
-      </div>
-
-      <aside class="lg:col-span-5" aria-labelledby="info-title">
-        <div class="rounded-lg border-[1.5px] border-line bg-win-2">
-          <p id="info-title" class="flex items-center gap-2 border-b-[1.5px] border-line px-4 py-2.5 font-mono text-[13px] font-medium">
-            <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">info</span>
-            Get info
-          </p>
-          <dl class="divide-y divide-line-soft px-4 text-[15px]">
-            {
-              info.map((row) => (
-                <div class="grid grid-cols-[7.5rem_1fr] gap-3 py-2.5">
-                  <dt class="font-mono text-[12px] leading-6 text-ink-2">{row.k}</dt>
-                  <dd class="font-medium">{row.v}</dd>
-                </div>
-              ))
-            }
-          </dl>
-        </div>
-      </aside>
-    </div>
+  <Window
+    title="Career Objective"
+    file="objective.txt"
+    icon="doc"
+    section="about"
+    status={`${careerObjective.length} paragraphs · UTF-8 · read-only`}
+  >
+    <ol class="editor">
+      {
+        careerObjective.map((p, i) => (
+          <li class="grid grid-cols-[2.5rem_1fr] sm:grid-cols-[3.5rem_1fr]">
+            <span class="gutter tabular" aria-hidden="true">
+              {i + 1}
+            </span>
+            <p class:list={["max-w-[64ch] px-4 py-5 text-lg leading-relaxed sm:px-6 sm:text-xl", i > 0 && "text-ink-2"]}>
+              {p}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
   </Window>
 </section>
+
+<style>
+  .editor {
+    background: linear-gradient(90deg, var(--win-2) 0 2.5rem, var(--line-soft) 2.5rem calc(2.5rem + 1px), transparent 0);
+  }
+  @media (min-width: 640px) {
+    .editor {
+      background: linear-gradient(90deg, var(--win-2) 0 3.5rem, var(--line-soft) 3.5rem calc(3.5rem + 1px), transparent 0);
+    }
+  }
+  .gutter {
+    padding-top: 1.45rem;
+    padding-right: 0.75rem;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--ink-2);
+  }
+  li + li {
+    border-top: 1px dashed var(--line-soft);
+  }
+</style>

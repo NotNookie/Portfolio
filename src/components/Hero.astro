@@ -3,6 +3,15 @@ import Window from "./Window.astro";
 import PixelIcon, { type PixelIconName } from "./PixelIcon.astro";
 import { profile } from "../data/site";
 
+const specs = [
+  { k: "Course", v: profile.course },
+  { k: "School", v: profile.school },
+  { k: "Year", v: `${profile.year} (capstone)` },
+  { k: "Graduating", v: "June–July 2027" },
+  { k: "Based in", v: profile.location },
+  { k: "Focus", v: "React · Node.js · Laravel" },
+];
+
 const shortcuts: { label: string; href: string; icon: PixelIconName; external?: boolean }[] = [
   { label: "Resume.pdf", href: profile.resume, icon: "doc", external: true },
   { label: "Email", href: `mailto:${profile.email}`, icon: "mail" },
@@ -13,10 +22,10 @@ const shortcuts: { label: string; href: string; icon: PixelIconName; external?: 
 ---
 
 <section id="hero" class="relative mx-auto max-w-6xl px-4 pt-16 pb-12 sm:px-6 sm:pt-20 lg:pb-10">
-  <div class="grid items-start gap-10 lg:grid-cols-12 lg:gap-8">
+  <div class="grid items-start gap-10 xl:grid-cols-12 xl:gap-8">
     <!-- wallpaper: name + desktop shortcuts -->
-    <div class="lg:col-span-7 lg:pt-6">
-      <h1 class="wallpaper-name text-[clamp(2.75rem,8vw,6rem)] leading-[0.9] font-extrabold tracking-[-0.035em] uppercase">
+    <div class="xl:col-span-6 xl:pt-6">
+      <h1 class="wallpaper-name text-[clamp(2.75rem,7.5vw,5.25rem)] leading-[0.9] font-extrabold tracking-[-0.035em] uppercase">
         <span class="block">{profile.firstName}</span>
         <span class="block"><span class="text-accent">M.</span> {profile.lastName}</span>
       </h1>
@@ -53,67 +62,61 @@ const shortcuts: { label: string; href: string; icon: PixelIconName; external?: 
       </nav>
     </div>
 
-    <!-- Welcome app -->
-    <div class="relative lg:col-span-5">
-      <Window title="Welcome" file="welcome.app" icon="person" section="hero" reveal={false} closable={false} as="p">
-        <div class="grid grid-cols-[7.5rem_1fr] sm:grid-cols-[9rem_1fr]">
-          <img
-            src={profile.photo}
-            alt={`Portrait of ${profile.name} in a dark suit and tie, smiling`}
-            width="900"
-            height="1200"
-            fetchpriority="high"
-            decoding="async"
-            class="h-full w-full border-r-[1.5px] border-line bg-[#f2f2f0] object-cover object-[50%_10%]"
-          />
-          <div class="space-y-3 p-4 sm:p-5">
-            <p class="text-lg leading-snug font-extrabold sm:text-xl">Hi, I'm {profile.firstName.split(" ")[0]}.</p>
-            <p class="font-mono text-[12px] leading-relaxed text-ink-2">
-              {profile.course}<br />{profile.school} · {profile.year}
-            </p>
-            <dl class="space-y-1.5 text-[13.5px]">
-              <div class="flex items-start gap-2">
-                <dt class="sr-only">Email</dt>
-                <span class="material-symbols-outlined !text-[16px] text-ink-2" aria-hidden="true">mail</span>
-                <dd><a href={`mailto:${profile.email}`} class="break-all hover:text-accent-ink hover:underline">{profile.email}</a></dd>
-              </div>
-              <div class="flex items-start gap-2">
-                <dt class="sr-only">Phone</dt>
-                <span class="material-symbols-outlined !text-[16px] text-ink-2" aria-hidden="true">call</span>
-                <dd><a href={`tel:${profile.phone.replace(/\s+/g, "")}`} class="hover:text-accent-ink hover:underline">{profile.phone}</a></dd>
-              </div>
-              <div class="flex items-start gap-2">
-                <dt class="sr-only">Location</dt>
-                <span class="material-symbols-outlined !text-[16px] text-ink-2" aria-hidden="true">location_on</span>
-                <dd>{profile.location}</dd>
-              </div>
+    <!-- About This Computer: spec sheet -->
+    <div class="mx-auto w-full max-w-2xl xl:col-span-6 xl:max-w-none">
+      <Window title="About Lhexus" file="system-info.app" icon="person" section="hero" reveal={false} closable={false} as="p">
+        <div class="grid sm:grid-cols-[minmax(0,15rem)_1fr]">
+          <figure class="relative border-b-[1.5px] border-line bg-[#f2f2f0] sm:border-r-[1.5px] sm:border-b-0">
+            <img
+              src={profile.photo}
+              alt={`Portrait of ${profile.name} in a dark suit and tie, smiling`}
+              width="900"
+              height="1200"
+              fetchpriority="high"
+              decoding="async"
+              class="aspect-[4/3] h-full w-full object-cover object-[50%_12%] sm:aspect-auto"
+            />
+            <figcaption
+              class="absolute -bottom-3 left-3 w-44 -rotate-3 rounded-sm border-[1.5px] border-line bg-hi p-2.5 text-on-hi shadow-[3px_3px_0_0_var(--shadow)] sm:bottom-4 sm:left-3"
+            >
+              <span class="block font-mono text-[10px] font-bold tracking-[0.08em] uppercase">Currently</span>
+              <span class="mt-0.5 block text-[13px] leading-snug font-semibold">
+                Building Iskolar, a multi-tenant scholarship platform, as my capstone.
+              </span>
+            </figcaption>
+          </figure>
+
+          <div class="flex flex-col gap-5 p-5 pt-8 sm:p-6">
+            <div>
+              <p class="text-2xl leading-tight font-extrabold tracking-[-0.02em]">{profile.firstName} {profile.lastName}</p>
+              <p class="mt-1 font-mono text-[13px] text-ink-2">{profile.role} · BSIT, Class of 2027</p>
+            </div>
+
+            <dl class="spec divide-y divide-line-soft border-y border-line-soft text-[14px]">
+              {
+                specs.map((row) => (
+                  <div class="grid grid-cols-[6rem_1fr] gap-3 py-2">
+                    <dt class="font-mono text-[12px] leading-5 font-medium">{row.k}</dt>
+                    <dd class="leading-5 text-ink-2">{row.v}</dd>
+                  </div>
+                ))
+              }
             </dl>
-          </div>
-        </div>
-        <div class="space-y-4 border-t-[1.5px] border-line p-4 sm:p-5">
-          <p class="text-[15px] leading-relaxed text-ink-2">{profile.tagline}</p>
-          <div class="flex flex-wrap gap-2.5">
-            <a href="#projects" class="btn btn-primary !px-3.5 !py-2 !text-sm">
-              <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">folder_open</span>
-              Open my work
-            </a>
-            <a href="#about" class="btn btn-ghost !px-3.5 !py-2 !text-sm">
-              <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">article</span>
-              Read objective
-            </a>
+
+            <div class="mt-auto flex flex-wrap gap-2.5">
+              <a href="#projects" class="btn btn-primary !px-3.5 !py-2 !text-sm">
+                <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">folder_open</span>
+                Open my work
+              </a>
+              <a href={profile.resume} target="_blank" rel="noopener noreferrer" class="btn btn-ghost !px-3.5 !py-2 !text-sm">
+                <span class="material-symbols-outlined !text-[17px]" aria-hidden="true">picture_as_pdf</span>
+                Resume
+                <span class="sr-only">(PDF, opens in a new tab)</span>
+              </a>
+            </div>
           </div>
         </div>
       </Window>
-
-      <aside
-        class="relative mt-6 ml-3 w-52 -rotate-2 rounded-sm border-[1.5px] border-line bg-hi p-3 text-on-hi shadow-[3px_3px_0_0_var(--shadow)] lg:-mt-3 lg:-ml-8"
-        aria-label="Currently"
-      >
-        <p class="font-mono text-[11px] font-bold tracking-[0.08em] uppercase">Currently</p>
-        <p class="mt-1 text-[14px] leading-snug font-semibold">
-          Building Iskolar, a multi-tenant scholarship platform, as my capstone.
-        </p>
-      </aside>
     </div>
   </div>
 </section>

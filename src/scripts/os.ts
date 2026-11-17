@@ -267,6 +267,8 @@ const spy = new IntersectionObserver(
 );
 $$("main section[id]").forEach((s) => spy.observe(s));
 windows().forEach((w) => setState(w, "open"));
+// Focus the first app on load if we're at the top of the page.
+if (window.scrollY < 80) setActive("hero");
 
 /* ---------------- boot screen ---------------- */
 
