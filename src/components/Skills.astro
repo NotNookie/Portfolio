@@ -1,5 +1,6 @@
 ---
 import * as simpleIcons from "simple-icons";
+import deviconSet from "@iconify-json/devicon/icons.json";
 import Window from "./Window.astro";
 import Tabs from "./Tabs.astro";
 import { technicalSkills, softSkills, type Skill } from "../data/site";
@@ -8,18 +9,25 @@ const techCount = technicalSkills.reduce((n, g) => n + g.items.length, 0);
 const slug = (label: string) => label.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 
 type SimpleIcon = { title: string; hex: string; path: string };
+type Devicon = { body: string; width: number; height: number };
+
+// Devicon (full colour) first, Simple Icons second, pictogram last.
+const devicon = (s: Skill): Devicon | undefined => {
+  if (!s.devicon) return undefined;
+  const set = deviconSet as unknown as {
+    width?: number;
+    height?: number;
+    icons: Record<string, { body: string; width?: number; height?: number }>;
+    aliases?: Record<string, { parent: string }>;
+  };
+  const icon = set.icons[s.devicon] ?? set.icons[set.aliases?.[s.devicon]?.parent ?? ""];
+  if (!icon) return undefined;
+  return { body: icon.body, width: icon.width ?? set.width ?? 128, height: icon.height ?? set.height ?? 128 };
+};
 const brand = (s: Skill): SimpleIcon | undefined => {
   if (!s.logo) return undefined;
   const key = `si${s.logo[0].toUpperCase()}${s.logo.slice(1)}`;
   return (simpleIcons as unknown as Record<string, SimpleIcon>)[key];
-};
-
-// Pick a dark or white glyph so the logo stays legible on its brand colour.
-const glyphOn = (hex: string) => {
-  const [r, g, b] = [0, 2, 4].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
-  const lin = (c: number) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
-  const L = 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b);
-  return L > 0.4 ? "#11131a" : "#ffffff";
 };
 ---
 
@@ -91,12 +99,17 @@ const glyphOn = (hex: string) => {
                 </h3>
                 <ul class="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4">
                   {g.items.map((s) => {
-                    const icon = brand(s);
+                    const dev = devicon(s);
+                    const icon = dev ? undefined : brand(s);
                     return (
                       <li class="skill-tile">
-                        {icon ? (
-                          <span class="skill-logo" style={`background:#${icon.hex}`}>
-                            <svg viewBox="0 0 24 24" aria-hidden="true" fill={glyphOn(icon.hex)}>
+                        {dev ? (
+                          <span class="skill-logo">
+                            <svg viewBox={`0 0 ${dev.width} ${dev.height}`} aria-hidden="true" set:html={dev.body} />
+                          </span>
+                        ) : icon ? (
+                          <span class="skill-logo">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" fill={`#${icon.hex}`}>
                               <path d={icon.path} />
                             </svg>
                           </span>
@@ -209,6 +222,7 @@ const glyphOn = (hex: string) => {
     }
   }
   .skill-logo {
+    background: #ffffff;
     display: grid;
     place-items: center;
     flex-shrink: 0;
@@ -218,8 +232,8 @@ const glyphOn = (hex: string) => {
     border-radius: 8px;
   }
   .skill-logo svg {
-    width: 1.35rem;
-    height: 1.35rem;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   .skill-logo-generic {
     background: var(--win-3);
