@@ -477,12 +477,24 @@ export const certificates: Certificate[] = [
   },
 ];
 
+/** Each app window (and its dock tile) gets its own colour. */
+export type AppColor = "cobalt" | "violet" | "orange" | "green" | "red" | "yellow";
+export const appColors: Record<string, AppColor> = {
+  hero: "cobalt",
+  about: "violet",
+  projects: "orange",
+  skills: "green",
+  background: "red",
+  contact: "yellow",
+};
+
 /* ---------------- Background & Achievements ---------------- */
 
 export interface Highlight {
   title: string;
   detail: string;
   icon: "medal" | "term" | "chip" | "person";
+  color: "yellow" | "red" | "cobalt" | "green";
   /** Optional chips shown under the detail (e.g. yearly placements). */
   chips?: string[];
 }
@@ -493,6 +505,7 @@ export const highlights: Highlight[] = [
     detail:
       "Placed at STI College Sta. Cruz's Android hackathon every year: 6–8 hour builds using only Android Studio and the docs. No internet, no AI.",
     icon: "medal",
+    color: "yellow",
     chips: ["1st Year · 1st Runner-up", "2nd Year · 2nd Runner-up", "3rd Year · 1st Runner-up", "4th Year · 1st Runner-up"],
   },
   {
@@ -500,18 +513,21 @@ export const highlights: Highlight[] = [
     detail:
       "Represented STI College Sta. Cruz in the Java Programming Contest at the 15th IT Skills Olympics, University of Makati.",
     icon: "term",
+    color: "red",
   },
   {
     title: "SAP S/4HANA trained",
     detail:
       "Two SAP University Alliances courses covering SD, MM, PP, FI and CO, plus the SAP × Accenture student career talk.",
     icon: "chip",
+    color: "cobalt",
   },
   {
     title: "Mentor & club designer",
     detail:
       "Peer tutor for Java Fundamentals (6 one-on-one sessions, 2 hrs each) and graphic designer for the Python Club for a year.",
     icon: "person",
+    color: "green",
   },
 ];
 

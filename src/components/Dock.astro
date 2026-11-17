@@ -1,6 +1,6 @@
 ---
 import PixelIcon from "./PixelIcon.astro";
-import { profile } from "../data/site";
+import { profile, appColors } from "../data/site";
 
 const items = [
   { href: "#hero", label: "Home", icon: "home" },
@@ -26,7 +26,7 @@ const labelClass = "dock-label font-mono text-[9.5px] leading-tight font-medium 
       {
         items.map((item) => (
           <li class="flex">
-            <a href={item.href} class={itemClass} data-dock={item.href.slice(1)}>
+            <a href={item.href} class={itemClass} data-dock={item.href.slice(1)} data-color={appColors[item.href.slice(1)]}>
               <span class="dock-tile">
                 <PixelIcon name={item.icon} />
               </span>

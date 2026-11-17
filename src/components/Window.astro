@@ -4,6 +4,7 @@
  * focus / tabs) lives in src/scripts/os.ts and keys off the data attributes.
  */
 import PixelIcon, { type PixelIconName } from "./PixelIcon.astro";
+import { appColors } from "../data/site";
 
 interface Props {
   /** App name shown in the title bar; rendered as the section heading. */
@@ -45,6 +46,7 @@ const titleId = `${section}-title`;
 <div
   class:list={["win", className]}
   data-window={section}
+  data-color={appColors[section] ?? "cobalt"}
   data-reveal={reveal ? "" : undefined}
   data-state="open"
   role="region"

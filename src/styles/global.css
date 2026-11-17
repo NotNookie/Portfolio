@@ -144,9 +144,41 @@ section[id] {
   user-select: none;
   transition: background-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), color 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
+/* per-app colours: --app fills the focused title bar, selected tab and dock tile */
+[data-color] {
+  --app: var(--accent);
+  --on-app: var(--on-accent);
+  --app-wash: var(--accent-wash);
+}
+[data-color="violet"] {
+  --app: #6b3ff0;
+  --on-app: #ffffff;
+  --app-wash: #ece6ff;
+}
+[data-color="orange"] {
+  --app: #ff7a3d;
+  --on-app: #11131a;
+  --app-wash: #ffe8dc;
+}
+[data-color="green"] {
+  --app: #12805a;
+  --on-app: #ffffff;
+  --app-wash: #dcf3e8;
+}
+[data-color="red"] {
+  --app: #d1363c;
+  --on-app: #ffffff;
+  --app-wash: #ffe1df;
+}
+[data-color="yellow"] {
+  --app: #ffd23f;
+  --on-app: #11131a;
+  --app-wash: #fff4c7;
+}
+
 .win[data-active="true"] .win-bar {
-  background: var(--accent);
-  color: var(--on-accent);
+  background: var(--app);
+  color: var(--on-app);
 }
 .win[data-state="minimized"] .win-bar {
   border-bottom-color: transparent;
@@ -277,13 +309,14 @@ section[id] {
   border-bottom-color: var(--win);
   background: var(--win);
   color: var(--ink);
+  box-shadow: inset 0 4px 0 var(--app);
 }
 .win-tab-count {
   min-width: 1.25rem;
   padding: 0 0.3rem;
   border-radius: 999px;
-  background: var(--accent-wash);
-  color: var(--accent-ink);
+  background: var(--app-wash);
+  color: var(--ink);
   font-family: var(--font-mono);
   font-size: 0.7rem;
   text-align: center;
@@ -418,13 +451,13 @@ html.has-max {
   box-shadow: 0 3px 0 0 var(--shadow);
 }
 .dock-item[aria-current="true"] .dock-tile {
-  background: var(--accent-wash);
-  border-color: var(--accent);
-  box-shadow: 0 0 0 2px var(--accent);
+  background: var(--app-wash, var(--accent-wash));
+  border-color: var(--line);
+  box-shadow: 0 0 0 3px var(--app, var(--accent));
 }
 .dock-item[aria-current="true"] .dock-label {
-  color: var(--accent-ink);
-  font-weight: 700;
+  color: var(--ink);
+  font-weight: 800;
 }
 @media (prefers-reduced-motion: reduce) {
   .dock-item:hover .dock-tile {
@@ -553,5 +586,5 @@ html.has-max {
   background: var(--ink);
 }
 .dock-item[aria-current="true"][data-running="true"] .dock-tile::after {
-  background: var(--accent);
+  background: var(--app, var(--accent));
 }
